@@ -1,0 +1,31 @@
+running egg_info
+creating ../../build/abu_red/abu_red.egg-info
+writing ../../build/abu_red/abu_red.egg-info/PKG-INFO
+writing dependency_links to ../../build/abu_red/abu_red.egg-info/dependency_links.txt
+writing entry points to ../../build/abu_red/abu_red.egg-info/entry_points.txt
+writing requirements to ../../build/abu_red/abu_red.egg-info/requires.txt
+writing top-level names to ../../build/abu_red/abu_red.egg-info/top_level.txt
+writing manifest file '../../build/abu_red/abu_red.egg-info/SOURCES.txt'
+reading manifest file '../../build/abu_red/abu_red.egg-info/SOURCES.txt'
+writing manifest file '../../build/abu_red/abu_red.egg-info/SOURCES.txt'
+running build
+running build_py
+creating /home/tien/Documents/GitHub/ALL_CODE/red_ws/build/abu_red/build
+creating /home/tien/Documents/GitHub/ALL_CODE/red_ws/build/abu_red/build/lib
+creating /home/tien/Documents/GitHub/ALL_CODE/red_ws/build/abu_red/build/lib/abu_red
+copying abu_red/__init__.py -> /home/tien/Documents/GitHub/ALL_CODE/red_ws/build/abu_red/build/lib/abu_red
+running install
+running install_lib
+creating /home/tien/Documents/GitHub/ALL_CODE/red_ws/install/abu_red/lib/python3.10/site-packages/abu_red
+copying /home/tien/Documents/GitHub/ALL_CODE/red_ws/build/abu_red/build/lib/abu_red/__init__.py -> /home/tien/Documents/GitHub/ALL_CODE/red_ws/install/abu_red/lib/python3.10/site-packages/abu_red
+byte-compiling /home/tien/Documents/GitHub/ALL_CODE/red_ws/install/abu_red/lib/python3.10/site-packages/abu_red/__init__.py to __init__.cpython-310.pyc
+running install_data
+creating /home/tien/Documents/GitHub/ALL_CODE/red_ws/install/abu_red/share/ament_index
+creating /home/tien/Documents/GitHub/ALL_CODE/red_ws/install/abu_red/share/ament_index/resource_index
+creating /home/tien/Documents/GitHub/ALL_CODE/red_ws/install/abu_red/share/ament_index/resource_index/packages
+copying resource/abu_red -> /home/tien/Documents/GitHub/ALL_CODE/red_ws/install/abu_red/share/ament_index/resource_index/packages
+copying package.xml -> /home/tien/Documents/GitHub/ALL_CODE/red_ws/install/abu_red/share/abu_red
+running install_egg_info
+Copying ../../build/abu_red/abu_red.egg-info to /home/tien/Documents/GitHub/ALL_CODE/red_ws/install/abu_red/lib/python3.10/site-packages/abu_red-0.0.0-py3.10.egg-info
+running install_scripts
+writing list of installed files to '/home/tien/Documents/GitHub/ALL_CODE/red_ws/build/abu_red/install.log'
