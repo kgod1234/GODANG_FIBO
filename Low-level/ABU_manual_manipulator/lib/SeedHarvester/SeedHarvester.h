@@ -12,14 +12,16 @@ public:
   void setup(); // set pin and gripper position
   // stepper
   void linearDrive(double dis, int dir); // drive gripper position to disire position and direction
-  void linearDrive(int dir); // drive gripper position to disire position and direction
   void setZero(); // set the gripper position to the start
   // servo
   void grab(); // grab an object
   void release(); // release an object 
   // command function
-  void singleHarvest_locking(); // harvest the object
-  void singleRelease(); // release the harvested obj
+  void stock(); // idk man
+  void out_stock(); // idk man
+  void harvest(); // idk tooo dawg
+  void re_harvest(); // idk tooo dawg
+  void single_release();
   // additional from old gripper
   void lifter_up(int pwm); // pull the gripper up
   void lifter_down(int pwm); // pull the gripper down
@@ -28,6 +30,7 @@ public:
   void lifter_down(int pwm, int mms); // pull the gripper down with time
 
   void single_press();
+  void change_grab_stage();
 private:
   int gap = 80;  //distance between seed in mm
 
@@ -49,11 +52,12 @@ private:
   bool Rdir = false; // go in to set zero pos
 
   int grbAng = 0;
-  int relAng = 75;
+  int relAng = 90;
 
   int pwm = 170;
 
   bool harvest = true;
+  bool grabbing = false;
 };
 
 #endif  // SEEDHARVESTER_H
