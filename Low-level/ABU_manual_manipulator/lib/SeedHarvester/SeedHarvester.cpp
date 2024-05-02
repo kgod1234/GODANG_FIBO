@@ -12,32 +12,20 @@ void SeedHarvester::linearDrive(double dis, int dir) {
   for (int i = 0; i < rpt; i++) {
     digitalWrite(dirPin_, dir);
     digitalWrite(stepPin_, HIGH);
-    delayMicroseconds(600);
+    delayMicroseconds(700);
     digitalWrite(stepPin_, LOW);
-    delayMicroseconds(600);
+    delayMicroseconds(700);
   }
   delay(500);
-}
-
-void SeedHarvester::linearDrive(int dir) {
-  // double rpt = dis / 0.285;
-  // for (int i = 0; i < rpt; i++) {
-    digitalWrite(dirPin_, dir);
-    digitalWrite(stepPin_, HIGH);
-    delayMicroseconds(600);
-    digitalWrite(stepPin_, LOW);
-    delayMicroseconds(600);
-  // }
-  // delay(500);
 }
 
 void SeedHarvester::setZero() {
   while (digitalRead(setzeropin_) == 1) {
     digitalWrite(dirPin_, Rdir);
     digitalWrite(stepPin_, HIGH);
-    delayMicroseconds(600);
+    delayMicroseconds(700);
     digitalWrite(stepPin_, LOW);
-    delayMicroseconds(600);
+    delayMicroseconds(700);
   }
   delay(500);
 }
@@ -90,7 +78,7 @@ void SeedHarvester::grab() {
 }
 
 void SeedHarvester::release() {
-  delay(800);
+  // delay(800);
   GrabServo.write(relAng);
   delay(500);
 }
@@ -128,72 +116,123 @@ void SeedHarvester::singleRelease() {
 
     
     if(storage > 2){
-      linearDrive(gap + manual_lock_dis, Rdir); // offset
+      linearDrive(gap + manual_lock_dis, Rdir);
     }
     else if(storage == 2){
       setZero();
     }
     grab();
   } 
-  manual_lock_dis = manual_lock_dis + gap;//offset
+  manual_lock_dis = manual_lock_dis + gap;
   if(manual_lock_dis > 455){
     manual_lock_dis = 455;
   }
   storage = storage - 1;
 }
 
-void SeedHarvester::singleHarvest_locking() {
+// void SeedHarvester::singleHarvest_locking() {
+//   if (storage == 6) {
+//     return;
+//     harvest = false;
+//   }
+
+//   if (storage == 5) {
+//     // set pos of gripper
+//     release();
+//     linearDrive(manual_lock_dis, Ldir);
+//     lifter_down(this->pwm);
+//     delay(2000);
+//     // grabbing stage
+//     grab();
+//     lifter_up(this->pwm,1000);
+//     linearDrive(manual_lock_dis - gap, Rdir);
+//     harvest = false;
+//   }
+
+//   else if (storage > 0 && storage < 5) {
+//     // set pos of gripper
+//     // release();
+
+//     release();
+
+//     // lifter_up(this->pwm);
+//     linearDrive(manual_lock_dis, Ldir);
+    
+//     // GrabServo.write(relAng);
+//     lifter_down(this->pwm);
+//     delay(2000);
+//     // grabbing stage
+//     grab();
+//     lifter_up(this->pwm);
+//     linearDrive(manual_lock_dis - gap, Rdir);
+//   } 
+  
+//   else if (storage == 0){
+//     // set pos of gripper
+//     GrabServo.write(relAng);
+//     // grabbing stage
+//     delay(2000);
+//     grab();
+//     lifter_up(this->pwm);
+//     setZero();
+//     storage = storage + 1;
+//     return;
+//   }
+
+//   // some pos cal
+//     manual_lock_dis = manual_lock_dis - gap;
+//     storage = storage + 1;
+// }
+
+void harvest(){
+  grab();
+  lifter_up(this->pwm);
+}
+
+void re_harvest(){
+  release();
+  lifter_down(this->pwm);
+}
+
+void stock(){
   if (storage == 6) {
     return;
     harvest = false;
   }
-
-  if (storage == 5) {
+  if (storage == 0){
     // set pos of gripper
-    release();
-    linearDrive(manual_lock_dis, Ldir);
-    lifter_down(this->pwm);
-    // grabbing stage
-    grab();
-    lifter_up(this->pwm,1000);
-    linearDrive(manual_lock_dis - gap, Rdir);
-    harvest = false;
-  }
-
-  else if (storage > 0 && storage < 5) {
-    // set pos of gripper
-    // release();
-
-    GrabServo.write(85);
-    delay(500);
-
-    // lifter_up(this->pwm);
-    linearDrive(manual_lock_dis, Ldir);
-    
-    release();
-    lifter_down(this->pwm);
-    delay(500);
-    // grabbing stage
-    grab();
-    lifter_up(this->pwm);
-    linearDrive(manual_lock_dis - gap, Rdir);
-  } 
-  
-  else if (storage == 0){
-    // set pos of gripper
-    GrabServo.write(relAng);
-    // grabbing stage
-    grab();
-    lifter_up(this->pwm);
+    harvest();
     setZero();
     storage = storage + 1;
     return;
   }
 
-  // some pos cal
-    manual_lock_dis = manual_lock_dis - gap;
-    storage = storage + 1;
+  else if (storage > 0 && storage < 5) {
+    harvest();
+    linearDrive(manual_lock_dis - gap, Rdir);
+  } 
+
+  else if (storage == 5) {
+    // set pos of gripper
+    harvest();
+    linearDrive(manual_lock_dis - gap, Rdir);
+    harvest = false;
+  }
+  manual_lock_dis = manual_lock_dis - gap;
+  storage = storage + 1;
 }
+
+void prepairing(){
+  if(storage == 0){
+    release();
+    // linearDrive(manual_lock_dis, Ldir);
+  }
+  else if (storage > 0 && storage < 6) {
+    release();
+    linearDrive(manual_lock_dis, Ldir);
+  } 
+}
+
 
 void SeedHarvester::setup(){
   // dc motor
@@ -223,11 +262,11 @@ void SeedHarvester::setup(){
   release();
 }
 
-void SeedHarvester::single_press(){
-  if(harvest == true){
-    singleHarvest_locking();
-  }
-  else{
-    singleRelease();
-  }
-}
+// void SeedHarvester::single_press(){
+//   if(harvest == true){
+//     singleHarvest_locking();
+//   }
+//   else{
+//     singleRelease();
+//   }
+// }

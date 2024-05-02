@@ -142,7 +142,7 @@ void BallShooter::grab(){ // grab the ball and keep high from the ground
   motor(230); // up
   delay(1300);
   // release the ball on holder
-  s.write(100);
+  s.write(120);
   motor_stop();
   delay(100);
 }
