@@ -17,12 +17,12 @@ public:
   void grab(); // grab an object
   void release(); // release an object 
   // command function
-  void stock(); // idk man
-  void out_stock(); // idk man
-  void harvest_seed(); // idk tooo dawg
-  void re_harvest(); // idk tooo dawg
+  void singleHarvest_locking(); // harvest the object
+  void singleRelease(); // release the harvested obj
+
+  void stock();
+  void preparing();
   void singleRelease();
-  void prepairing();
   // additional from old gripper
   void lifter_up(int pwm); // pull the gripper up
   void lifter_down(int pwm); // pull the gripper down
@@ -30,7 +30,7 @@ public:
   void lifter_up(int pwm, int mms); // pull the gripper up with time
   void lifter_down(int pwm, int mms); // pull the gripper down with time
 
-  // void single_press();
+  void single_press();
   void change_grab_stage();
 
 private:
@@ -60,7 +60,6 @@ private:
 
   // bool harvest = true;
   bool harvest = true;
-  bool grabbing = false;
 };
 
 #endif  // SEEDHARVESTER_H

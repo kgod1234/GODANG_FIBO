@@ -42,7 +42,6 @@ void BallShooter::setup(){
   s.write(160);
   delay(200);
   // keep motor from the ground
-
   motor_stop();
   delay(100);
   // adjust ball holder position
@@ -127,20 +126,19 @@ void BallShooter::preparing(){ // keep the grabber on the ground to grab a ball
 
   motor_stop(); // stop motor
   delay(200);
-
-  s.write(120); // keep the grabber avaiable
+  s.write(140); // keep the grabber avaiable
 }
 
 void BallShooter::grab(){ // grab the ball and keep high from the ground
   // grab by servo
-  s.write(160);
+  s.write(180);
   delay(500);
 //  s.write(120);
   // adjust motor position
   motor(230); // up
   delay(1300);
   // release the ball on holder
-  s.write(120);
+  s.write(140);
   motor_stop();
   delay(100);
 }
@@ -154,8 +152,15 @@ void BallShooter::shoot(){
   // deliver a ball to fly wheel
   unsigned long long int start = millis();
   digitalWrite(dirPin_, LOW);
-  wheel(255);
   while(digitalRead(limitSwitchPin_) == 1){
+    if(power > 255){
+      power = 255;
+    }
+    if(millis() - start == 10){
+      start = millis();
+      power += 40;
+      wheel(power);
+    }
     digitalWrite(stepPin_, HIGH);
     delayMicroseconds(1000);
     digitalWrite(stepPin_, LOW);
