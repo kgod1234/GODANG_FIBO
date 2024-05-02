@@ -13,7 +13,6 @@
 #include "SeedHarvester.h"
 #include "BallShooter.h"
 
-
 #if !defined(MICRO_ROS_TRANSPORT_ARDUINO_SERIAL)
 #error This example is only avaliable for Arduino framework with serial transport.
 #endif
@@ -61,175 +60,176 @@ SeedHarvester seedHarvester(grabberPin, lifterA, lifterB, groundlimit, toplimit,
 BallShooter ballShooter(servoPin, limitSwitchPin, INA, INB, grb_ref1, grb_ref2, stepPin_Ball, dirPin_Ball);
 
 #define RCCHECK(fn)                                                                                                    \
-	{                                                                                                                    \
-		rcl_ret_t temp_rc = fn;                                                                                            \
-		if ((temp_rc != RCL_RET_OK))                                                                                       \
-		{                                                                                                                  \
-			error_loop();                                                                                                    \
-		}                                                                                                                  \
-	}
+  {                                                                                                                    \
+	rcl_ret_t temp_rc = fn;                                                                                            \
+	if ((temp_rc != RCL_RET_OK))                                                                                       \
+	{                                                                                                                  \
+	  error_loop();                                                                                                    \
+	}                                                                                                                  \
+  }
 #define RCSOFTCHECK(fn)                                                                                                \
-	{                                                                                                                    \
-		rcl_ret_t temp_rc = fn;                                                                                            \
-		if ((temp_rc != RCL_RET_OK))                                                                                       \
-		{                                                                                                                  \
-		}                                                                                                                  \
-	}
+  {                                                                                                                    \
+	rcl_ret_t temp_rc = fn;                                                                                            \
+	if ((temp_rc != RCL_RET_OK))                                                                                       \
+	{                                                                                                                  \
+	}                                                                                                                  \
+  }
 // control setup
 
 void error_loop()
 {
-	while (1)
-	{
-		digitalWrite(LED_PIN, !digitalRead(LED_PIN));
-		delay(2000);
-	}
+  while (1)
+  {
+	digitalWrite(LED_PIN, !digitalRead(LED_PIN));
+	delay(2000);
+  }
 }
 
 void subscription_callback(const void* msgin)
 {
-	const std_msgs__msg__Float32MultiArray* msg = (const std_msgs__msg__Float32MultiArray*)msgin;
-	digitalWrite(LED_PIN, HIGH);
-  
-  	command = msg->data.data[3];
+  const std_msgs__msg__Float32MultiArray* msg = (const std_msgs__msg__Float32MultiArray*)msgin;
+  digitalWrite(LED_PIN, HIGH);
 
-	if (command != 0 && maniState == true)
-	{
-		maniState = false;
-	}
-	if (maniStateCount == 10)
-	{
-		maniStateCount = 0;
-		maniState = true;
-	}
+  command = msg->data.data[3];
 
-	if (command == 1.0 && ballShooterState != 1 && maniState == true)
-	{
-		// x button
-		ballShooter.preparing();
-		ballShooterState = 1;
-	}	
-	else if (command == 2.0  && ballShooterState != 2 && maniState == true)
-	{
-		// o button
-		ballShooter.grab();
-		ballShooterState = 2;
-	}
-	else if (command == 18.0  && ballShooterState != 3 && maniState == true && ballShooterState == 2)
-	{
-		// trig left
-		ballShooter.shoot();
-		delay(100);
-		ballShooter.preparing();
-		ballShooterState = 3;
-	}
-	else if (command == 7.0 && maniState == true)
-	{
-		// trig right
-		seedHarvester.stock();
-    	delay(1000);
-	}
-	else if (command == 6.0 && maniState == true)
-	{
-		// up right
-		seedHarvester.linearDrive(10,true); // true == out 
-	}
-	else if (command == 5.0 && maniState == true)
-	{
-		// up left
-		seedHarvester.linearDrive(10,false); // false == in
-	}
-	else if (command == 3.0 && maniState == true)
-	{
-		// triangle button
-		seedHarvester.prepairing();
-	}
-	else if (command == 4.0 && maniState == true)
-	{
-		// squre button
-		seedHarvester.grab();
-	}
+  if (command != 0 && maniState == true)
+  {
+	maniState = false;
+  }
+  if (maniStateCount == 10)
+  {
+	maniStateCount = 0;
+	maniState = true;
+  }
 
-	maniStateCount++;
+  if (command == 1.0 && ballShooterState != 1 && maniState == true)
+  {
+	// x button
+	ballShooter.preparing();
+	ballShooterState = 1;
+  }
+  else if (command == 2.0 && ballShooterState != 2 && maniState == true)
+  {
+	// o button
+	ballShooter.grab();
+	ballShooterState = 2;
+  }
+  else if (command == 18.0 && ballShooterState != 3 && maniState == true && ballShooterState == 2)
+  {
+	// trig left
+	ballShooter.shoot();
+	delay(100);
+	ballShooter.preparing();
+	ballShooterState = 3;
+  }
+  else if (command == 7.0 && maniState == true)
+  {
+	// trig right
+	seedHarvester.stock();
+	delay(1000);
+  }
+  else if (command == 6.0 && maniState == true)
+  {
+	// up right
+	seedHarvester.linearDrive(10, true);  // true == out
+  }
+  else if (command == 5.0 && maniState == true)
+  {
+	// up left
+	seedHarvester.linearDrive(10, false);  // false == in
+  }
+  else if (command == 3.0 && maniState == true)
+  {
+	// triangle button
+	seedHarvester.preparing();
+  }
+  else if (command == 4.0 && maniState == true)
+  {
+	// squre button
+	seedHarvester.grab();
+  }
+
+  maniStateCount++;
 }
 
 void timer_callback(rcl_timer_t* timer, int64_t last_call_time)
 {
-	RCLC_UNUSED(last_call_time);
-	if (timer != NULL)
-	{
-		debug_msg.data.data[3] = command;
-		RCSOFTCHECK(rcl_publish(&publisher, &debug_msg, NULL));
-	}
+  RCLC_UNUSED(last_call_time);
+  if (timer != NULL)
+  {
+	debug_msg.data.data[3] = command;
+	RCSOFTCHECK(rcl_publish(&publisher, &debug_msg, NULL));
+  }
 }
 
 void setup()
 {
-	Serial.begin(921600);
-	set_microros_serial_transports(Serial);
-	delay(100);
+  Serial.begin(921600);
+  set_microros_serial_transports(Serial);
+  delay(100);
 
-	pinMode(LED_PIN, OUTPUT);
-	digitalWrite(LED_PIN, HIGH);
+  pinMode(LED_PIN, OUTPUT);
+  digitalWrite(LED_PIN, HIGH);
 
-	delay(2000);
+  delay(2000);
 
-	// setup is right hear
-	ballShooter.setup();
-	seedHarvester.setup();
-	
-	delay(5000);
+  // setup is right hear
+  ballShooter.setup();
+  seedHarvester.setup();
 
-	allocator = rcl_get_default_allocator();
+  delay(5000);
 
-	// create init_options
-	RCCHECK(rclc_support_init(&support, 0, NULL, &allocator));
+  allocator = rcl_get_default_allocator();
 
-	// create node
-	RCCHECK(rclc_node_init_default(&node, "micro_ros_mani_node", "", &support));
+  // create init_options
+  RCCHECK(rclc_support_init(&support, 0, NULL, &allocator));
 
-	// create subscriber
-	RCCHECK(rclc_subscription_init_default(&subscriber, &node,ROSIDL_GET_MSG_TYPE_SUPPORT(std_msgs, msg, Float32MultiArray), "joy_data"));
+  // create node
+  RCCHECK(rclc_node_init_default(&node, "micro_ros_mani_node", "", &support));
 
-	// create publisher
-	RCCHECK(rclc_publisher_init_default(&publisher, &node, ROSIDL_GET_MSG_TYPE_SUPPORT(std_msgs, msg, Float32MultiArray),
-																			"debugging_mani"));
+  // create subscriber
+  RCCHECK(rclc_subscription_init_default(&subscriber, &node,
+										 ROSIDL_GET_MSG_TYPE_SUPPORT(std_msgs, msg, Float32MultiArray), "joy_data"));
 
-	const unsigned int timer_timeout = 20;
-	RCCHECK(rclc_timer_init_default(&timer, &support, RCL_MS_TO_NS(timer_timeout), timer_callback));
+  // create publisher
+  RCCHECK(rclc_publisher_init_default(&publisher, &node, ROSIDL_GET_MSG_TYPE_SUPPORT(std_msgs, msg, Float32MultiArray),
+									  "debugging_mani"));
 
-	msg.data.capacity = 4;
-	msg.data.size = 4;
-	msg.data.data = (float_t*)malloc(msg.data.capacity * sizeof(float_t));
+  const unsigned int timer_timeout = 20;
+  RCCHECK(rclc_timer_init_default(&timer, &support, RCL_MS_TO_NS(timer_timeout), timer_callback));
 
-	msg.layout.dim.capacity = 4;
-	msg.layout.dim.size = 4;
-	msg.layout.dim.data =
-			(std_msgs__msg__MultiArrayDimension*)malloc(msg.layout.dim.capacity * sizeof(std_msgs__msg__MultiArrayDimension));
+  msg.data.capacity = 4;
+  msg.data.size = 4;
+  msg.data.data = (float_t*)malloc(msg.data.capacity * sizeof(float_t));
 
-	for (size_t i = 0; i < msg.layout.dim.capacity; i++)
-	{
-		msg.layout.dim.data[i].label.capacity = 4;
-		msg.layout.dim.data[i].label.size = 4;
-		msg.layout.dim.data[i].label.data = (char*)malloc(msg.layout.dim.data[i].label.capacity * sizeof(char));
-	}
+  msg.layout.dim.capacity = 4;
+  msg.layout.dim.size = 4;
+  msg.layout.dim.data =
+	  (std_msgs__msg__MultiArrayDimension*)malloc(msg.layout.dim.capacity * sizeof(std_msgs__msg__MultiArrayDimension));
 
-	// create executor
-	RCCHECK(rclc_executor_init(&executor, &support.context, 2, &allocator));
-	RCCHECK(rclc_executor_add_subscription(&executor, &subscriber, &msg, &subscription_callback, ON_NEW_DATA));
-	RCCHECK(rclc_executor_add_timer(&executor, &timer))
+  for (size_t i = 0; i < msg.layout.dim.capacity; i++)
+  {
+	msg.layout.dim.data[i].label.capacity = 4;
+	msg.layout.dim.data[i].label.size = 4;
+	msg.layout.dim.data[i].label.data = (char*)malloc(msg.layout.dim.data[i].label.capacity * sizeof(char));
+  }
 
-	debug_msg.data.capacity = 4;
-	debug_msg.data.size = 4;
-	debug_msg.data.data = (float_t*)malloc(msg.data.capacity * sizeof(float_t));
+  // create executor
+  RCCHECK(rclc_executor_init(&executor, &support.context, 2, &allocator));
+  RCCHECK(rclc_executor_add_subscription(&executor, &subscriber, &msg, &subscription_callback, ON_NEW_DATA));
+  RCCHECK(rclc_executor_add_timer(&executor, &timer))
 
-	msg.data.data[0] = 0.0f;
-	msg.data.data[1] = 0.0f;
-	msg.data.data[2] = 0.0f;
-	msg.data.data[3] = 0.0f;
+  debug_msg.data.capacity = 4;
+  debug_msg.data.size = 4;
+  debug_msg.data.data = (float_t*)malloc(msg.data.capacity * sizeof(float_t));
+
+  msg.data.data[0] = 0.0f;
+  msg.data.data[1] = 0.0f;
+  msg.data.data[2] = 0.0f;
+  msg.data.data[3] = 0.0f;
 }
 
 void loop()
 {
-	RCCHECK(rclc_executor_spin_some(&executor, RCL_MS_TO_NS(1)));
+  RCCHECK(rclc_executor_spin_some(&executor, RCL_MS_TO_NS(1)));
 }
