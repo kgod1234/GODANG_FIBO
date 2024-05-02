@@ -17,11 +17,11 @@ public:
   void grab(); // grab an object
   void release(); // release an object 
   // command function
-  void stock(); // idk man
-  void out_stock(); // idk man
-  void harvest(); // idk tooo dawg
-  void re_harvest(); // idk tooo dawg
-  void single_release();
+  void singleHarvest_locking(); // harvest the object
+  void singleRelease(); // release the harvested obj
+
+  void stock();
+  void preparing();
   // additional from old gripper
   void lifter_up(int pwm); // pull the gripper up
   void lifter_down(int pwm); // pull the gripper down
@@ -30,7 +30,6 @@ public:
   void lifter_down(int pwm, int mms); // pull the gripper down with time
 
   void single_press();
-  void change_grab_stage();
 private:
   int gap = 80;  //distance between seed in mm
 
@@ -57,7 +56,6 @@ private:
   int pwm = 170;
 
   bool harvest = true;
-  bool grabbing = false;
 };
 
 #endif  // SEEDHARVESTER_H

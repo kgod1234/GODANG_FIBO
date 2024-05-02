@@ -130,109 +130,59 @@ void SeedHarvester::singleRelease() {
   storage = storage - 1;
 }
 
-// void SeedHarvester::singleHarvest_locking() {
-//   if (storage == 6) {
-//     return;
-//     harvest = false;
-//   }
-
-//   if (storage == 5) {
-//     // set pos of gripper
-//     release();
-//     linearDrive(manual_lock_dis, Ldir);
-//     lifter_down(this->pwm);
-//     delay(2000);
-//     // grabbing stage
-//     grab();
-//     lifter_up(this->pwm,1000);
-//     linearDrive(manual_lock_dis - gap, Rdir);
-//     harvest = false;
-//   }
-
-//   else if (storage > 0 && storage < 5) {
-//     // set pos of gripper
-//     // release();
-
-//     release();
-
-//     // lifter_up(this->pwm);
-//     linearDrive(manual_lock_dis, Ldir);
-    
-//     // GrabServo.write(relAng);
-//     lifter_down(this->pwm);
-//     delay(2000);
-//     // grabbing stage
-//     grab();
-//     lifter_up(this->pwm);
-//     linearDrive(manual_lock_dis - gap, Rdir);
-//   } 
-  
-//   else if (storage == 0){
-//     // set pos of gripper
-//     GrabServo.write(relAng);
-//     // grabbing stage
-//     delay(2000);
-//     grab();
-//     lifter_up(this->pwm);
-//     setZero();
-//     storage = storage + 1;
-//     return;
-//   }
-
-//   // some pos cal
-//     manual_lock_dis = manual_lock_dis - gap;
-//     storage = storage + 1;
-// }
-
-void harvest(){
-  grab();
-  lifter_up(this->pwm);
-}
-
-void re_harvest(){
-  release();
-  lifter_down(this->pwm);
-}
-
-void stock(){
+void SeedHarvester::singleHarvest_locking() {
   if (storage == 6) {
     return;
     harvest = false;
   }
-  if (storage == 0){
+
+  if (storage == 5) {
     // set pos of gripper
-    harvest();
+    release();
+    linearDrive(manual_lock_dis, Ldir);
+    lifter_down(this->pwm);
+    delay(2000);
+    // grabbing stage
+    grab();
+    lifter_up(this->pwm,1000);
+    linearDrive(manual_lock_dis - gap, Rdir);
+    harvest = false;
+  }
+
+  else if (storage > 0 && storage < 5) {
+    // set pos of gripper
+    // release();
+
+    release();
+
+    // lifter_up(this->pwm);
+    linearDrive(manual_lock_dis, Ldir);
+    
+    // GrabServo.write(relAng);
+    lifter_down(this->pwm);
+    delay(2000);
+    // grabbing stage
+    grab();
+    lifter_up(this->pwm);
+    linearDrive(manual_lock_dis - gap, Rdir);
+  } 
+  
+  else if (storage == 0){
+    // set pos of gripper
+    GrabServo.write(relAng);
+    // grabbing stage
+    delay(2000);
+    grab();
+    lifter_up(this->pwm);
     setZero();
     storage = storage + 1;
     return;
   }
 
-  else if (storage > 0 && storage < 5) {
-    harvest();
-    linearDrive(manual_lock_dis - gap, Rdir);
-  } 
-
-  else if (storage == 5) {
-    // set pos of gripper
-    harvest();
-    linearDrive(manual_lock_dis - gap, Rdir);
-    harvest = false;
-  }
-  manual_lock_dis = manual_lock_dis - gap;
-  storage = storage + 1;
+  // some pos cal
+    manual_lock_dis = manual_lock_dis - gap;
+    storage = storage + 1;
 }
-
-void prepairing(){
-  if(storage == 0){
-    release();
-    // linearDrive(manual_lock_dis, Ldir);
-  }
-  else if (storage > 0 && storage < 6) {
-    release();
-    linearDrive(manual_lock_dis, Ldir);
-  } 
-}
-
 
 void SeedHarvester::setup(){
   // dc motor
@@ -262,11 +212,44 @@ void SeedHarvester::setup(){
   release();
 }
 
-// void SeedHarvester::single_press(){
-//   if(harvest == true){
-//     singleHarvest_locking();
-//   }
-//   else{
-//     singleRelease();
-//   }
-// }
+void SeedHarvester::single_press(){
+  if(harvest == true){
+    singleHarvest_locking();
+  }
+  else{
+    singleRelease();
+  }
+}
+
+void SeedHarvester::stock(){
+  if (storage == 6) {
+    harvest = false;
+    return;
+  }
+  if (storage == 0){
+    grab();
+    lifter_up(this->pwm);
+    setZero();
+    storage = storage + 1;
+    return;
+  }
+  else if(storage > 0 && storage < 5){
+    grab();
+    lifter_up(this->pwm);
+    linearDrive(manual_lock_dis - gap, Rdir);
+  }
+  else if(storage == 5){
+    grab();
+    lifter_up(this->pwm,1000);
+    linearDrive(manual_lock_dis - gap, Rdir);
+    harvest = false;
+  }
+  manual_lock_dis = manual_lock_dis - gap;
+  storage = storage + 1;
+}
+
+void SeedHarvester::preparing(){
+    release();
+    linearDrive(manual_lock_dis, Ldir);
+    lifter_down(this->pwm);
+}
