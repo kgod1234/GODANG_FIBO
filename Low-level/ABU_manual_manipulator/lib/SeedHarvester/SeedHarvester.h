@@ -19,9 +19,10 @@ public:
   // command function
   void stock(); // idk man
   void out_stock(); // idk man
-  void harvest(); // idk tooo dawg
+  void harvest_seed(); // idk tooo dawg
   void re_harvest(); // idk tooo dawg
-  void single_release();
+  void singleRelease();
+  void prepairing();
   // additional from old gripper
   void lifter_up(int pwm); // pull the gripper up
   void lifter_down(int pwm); // pull the gripper down
@@ -29,8 +30,9 @@ public:
   void lifter_up(int pwm, int mms); // pull the gripper up with time
   void lifter_down(int pwm, int mms); // pull the gripper down with time
 
-  void single_press();
+  // void single_press();
   void change_grab_stage();
+
 private:
   int gap = 80;  //distance between seed in mm
 
@@ -44,7 +46,7 @@ private:
   int setzeropin_; // limit pin to set zero for step motor
 
   int storage = 0;
-  int manual_lock_dis = 455; // the initial pos in mm
+  int manual_lock_dis = 445; // the initial pos in mm
 
   int n_release = 0;
 
@@ -56,6 +58,7 @@ private:
 
   int pwm = 170;
 
+  // bool harvest = true;
   bool harvest = true;
   bool grabbing = false;
 };

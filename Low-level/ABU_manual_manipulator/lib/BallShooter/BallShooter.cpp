@@ -42,8 +42,6 @@ void BallShooter::setup(){
   s.write(160);
   delay(200);
   // keep motor from the ground
-  motor(230);//up
-  delay(1300);
 
   motor_stop();
   delay(100);
@@ -130,7 +128,7 @@ void BallShooter::preparing(){ // keep the grabber on the ground to grab a ball
   motor_stop(); // stop motor
   delay(200);
 
-  s.write(100); // keep the grabber avaiable
+  s.write(120); // keep the grabber avaiable
 }
 
 void BallShooter::grab(){ // grab the ball and keep high from the ground

@@ -126,7 +126,7 @@ void subscription_callback(const void* msgin)
 	else if (command == 7.0 && maniState == true)
 	{
 		// trig right
-		seedHarvester.single_press();
+		seedHarvester.stock();
     	delay(1000);
 	}
 	else if (command == 6.0 && maniState == true)
@@ -142,9 +142,7 @@ void subscription_callback(const void* msgin)
 	else if (command == 3.0 && maniState == true)
 	{
 		// triangle button
-		seedHarvester.lifter_down(170,500);
-		seedHarvester.release();
-		seedHarvester.lifter_up(170);
+		seedHarvester.prepairing();
 	}
 	else if (command == 4.0 && maniState == true)
 	{

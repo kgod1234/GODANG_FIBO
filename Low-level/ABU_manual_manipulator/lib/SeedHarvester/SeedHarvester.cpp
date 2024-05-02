@@ -184,37 +184,37 @@ void SeedHarvester::singleRelease() {
 //     storage = storage + 1;
 // }
 
-void harvest(){
+void SeedHarvester::harvest_seed(){
   grab();
   lifter_up(this->pwm);
 }
 
-void re_harvest(){
+void SeedHarvester::re_harvest(){
   release();
   lifter_down(this->pwm);
 }
 
-void stock(){
+void SeedHarvester::stock(){
   if (storage == 6) {
     return;
     harvest = false;
   }
   if (storage == 0){
     // set pos of gripper
-    harvest();
+    harvest_seed();
     setZero();
     storage = storage + 1;
     return;
   }
 
   else if (storage > 0 && storage < 5) {
-    harvest();
+    harvest_seed();
     linearDrive(manual_lock_dis - gap, Rdir);
   } 
 
   else if (storage == 5) {
     // set pos of gripper
-    harvest();
+    harvest_seed();
     linearDrive(manual_lock_dis - gap, Rdir);
     harvest = false;
   }
@@ -222,7 +222,7 @@ void stock(){
   storage = storage + 1;
 }
 
-void prepairing(){
+void SeedHarvester::prepairing(){
   if(storage == 0){
     release();
     // linearDrive(manual_lock_dis, Ldir);
