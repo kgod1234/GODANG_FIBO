@@ -126,7 +126,6 @@ void BallShooter::preparing(){ // keep the grabber on the ground to grab a ball
 
   motor_stop(); // stop motor
   delay(200);
-
   s.write(140); // keep the grabber avaiable
 }
 

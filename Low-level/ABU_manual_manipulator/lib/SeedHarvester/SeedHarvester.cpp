@@ -177,6 +177,94 @@ void SeedHarvester::singleHarvest_locking() {
     setZero();
     storage = storage + 1;
     return;
+   }
+
+//   // some pos cal
+//     manual_lock_dis = manual_lock_dis - gap;
+//     storage = storage + 1;
+// }
+
+void SeedHarvester::harvest_seed(){
+  grab();
+  lifter_up(this->pwm);
+}
+
+void SeedHarvester::re_harvest(){
+  release();
+  lifter_down(this->pwm);
+}
+
+void SeedHarvester::stock(){
+  if (storage == 6) {
+    return;
+    harvest = false;
+  }
+
+  if (storage == 5) {
+    // set pos of gripper
+    release();
+    linearDrive(manual_lock_dis, Ldir);
+    lifter_down(this->pwm);
+    delay(2000);
+    // grabbing stage
+    grab();
+    lifter_up(this->pwm,1000);
+  }
+  if (storage == 0){
+    // set pos of gripper
+    harvest_seed();
+    setZero();
+    storage = storage + 1;
+    return;
+  }
+
+  else if (storage > 0 && storage < 5) {
+    harvest_seed();
+    linearDrive(manual_lock_dis - gap, Rdir);
+  } 
+
+  else if (storage == 5) {
+    // set pos of gripper
+    harvest_seed();
+    linearDrive(manual_lock_dis - gap, Rdir);
+    harvest = false;
+  }
+
+  else if (storage > 0 && storage < 5) {
+    // set pos of gripper
+    // release();
+  }
+
+void SeedHarvester::prepairing(){
+  if(storage == 0){
+    release();
+    // linearDrive(manual_lock_dis, Ldir);
+  }
+  else if (storage > 0 && storage < 6) {
+    release();
+
+    // lifter_up(this->pwm);
+    linearDrive(manual_lock_dis, Ldir);
+    
+    // GrabServo.write(relAng);
+    lifter_down(this->pwm);
+    delay(2000);
+    // grabbing stage
+    grab();
+    lifter_up(this->pwm);
+    linearDrive(manual_lock_dis - gap, Rdir);
+  } 
+  
+  else if (storage == 0){
+    // set pos of gripper
+    GrabServo.write(relAng);
+    // grabbing stage
+    delay(2000);
+    grab();
+    lifter_up(this->pwm);
+    setZero();
+    storage = storage + 1;
+    return;
   }
 
   // some pos cal
