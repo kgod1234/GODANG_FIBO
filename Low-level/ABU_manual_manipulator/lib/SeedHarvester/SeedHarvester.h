@@ -54,7 +54,7 @@ private:
   int setzeropin_; // limit pin to set zero for step motor
 
   int storage = 0;
-  int manual_lock_dis = 430; // the initial pos in mm
+  int manual_lock_dis = 445; // the initial pos in mm
 
   int n_release = 0;
 

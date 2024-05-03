@@ -105,11 +105,11 @@ void subscription_callback(const void* msgin)
 
   if (msg->data.data[3] == 5)
   {
-    slowState == true;
+    slowState = true;
   }
   else
   {
-    slowState == false;
+    slowState = false;
   }
 }
 
@@ -126,15 +126,15 @@ void timer_callback(rcl_timer_t* timer, int64_t last_call_time)
     {
       Kinematics::RPM wheelSpeeds = kinematics.Inverse_Kinematics(mobile_data.vx, mobile_data.vy,
                                                                   -1 * (mobile_data.wz));  // Set Joy to 0.92 0.92 2.65
-      FL.setSpeed(mapfloat(wheelSpeeds.RPM_FL, -138, 138, -255, 255) / 2);
-      FR.setSpeed(mapfloat(wheelSpeeds.RPM_FR, -138, 138, -255, 255) / 2);
-      BL.setSpeed(mapfloat(wheelSpeeds.RPM_BL, -138, 138, -255, 255) / 2);
-      BR.setSpeed(mapfloat(wheelSpeeds.RPM_BR, -138, 138, -255, 255) / 2);
+      FL.setSpeed(mapfloat(wheelSpeeds.RPM_FL, -138, 138, -255, 255) / 4);
+      FR.setSpeed(mapfloat(wheelSpeeds.RPM_FR, -138, 138, -255, 255) / 4);
+      BL.setSpeed(mapfloat(wheelSpeeds.RPM_BL, -138, 138, -255, 255) / 4);
+      BR.setSpeed(mapfloat(wheelSpeeds.RPM_BR, -138, 138, -255, 255) / 4);
 
-      debug_msg.data.data[0] = mapfloat(wheelSpeeds.RPM_FL, -138, 138, -255, 255) / 2;
-      debug_msg.data.data[1] = mapfloat(wheelSpeeds.RPM_FR, -138, 138, -255, 255) / 2;
-      debug_msg.data.data[2] = mapfloat(wheelSpeeds.RPM_BL, -138, 138, -255, 255) / 2;
-      debug_msg.data.data[3] = mapfloat(wheelSpeeds.RPM_BR, -138, 138, -255, 255) / 2;
+      debug_msg.data.data[0] = mapfloat(wheelSpeeds.RPM_FL, -138, 138, -255, 255) / 4;
+      debug_msg.data.data[1] = mapfloat(wheelSpeeds.RPM_FR, -138, 138, -255, 255) / 4;
+      debug_msg.data.data[2] = mapfloat(wheelSpeeds.RPM_BL, -138, 138, -255, 255) / 4;
+      debug_msg.data.data[3] = mapfloat(wheelSpeeds.RPM_BR, -138, 138, -255, 255) / 4;
     }
     else
     {

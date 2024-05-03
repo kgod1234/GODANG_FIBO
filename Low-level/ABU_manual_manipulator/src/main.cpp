@@ -114,7 +114,7 @@ void subscription_callback(const void* msgin)
     ballShooter.grab();
     ballShooterState = 2;
   }
-  else if (command == 18.0 && ballShooterState != 3 && maniState == true && ballShooterState == 2)
+  else if (command == 7.0 && ballShooterState != 3 && maniState == true && ballShooterState == 2)
   {
     // trig left
     ballShooter.shoot();
@@ -122,7 +122,7 @@ void subscription_callback(const void* msgin)
     ballShooter.preparing();
     ballShooterState = 3;
   }
-  else if (command == 7.0 && maniState == true)
+  else if (command == 18.0 && maniState == true)
   {
     // trig right
     seedHarvester.single_press(true);
@@ -136,12 +136,12 @@ void subscription_callback(const void* msgin)
   else if (command == 3.0 && maniState == true)
   {
     // triangle button
-    seedHarvester.preparing();
   }
   else if (command == 4.0 && maniState == true)
   {
     // squre button
-    seedHarvester.grab();
+    seedHarvester.linearDrive(20,false);
+    seedHarvester.add_dis(true, 20);
   }
 
   maniStateCount++;
@@ -172,7 +172,7 @@ void setup()
   ballShooter.setup();
   seedHarvester.setup();
 
-  delay(5000);
+  delay(1000);
 
   allocator = rcl_get_default_allocator();
 
