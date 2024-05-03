@@ -125,23 +125,25 @@ void subscription_callback(const void* msgin)
   else if (command == 18.0 && maniState == true)
   {
     // trig right
-    seedHarvester.single_press(true);
+    seedHarvester.single_press(true); // forward stage
   }
   else if (command == 6.0 && maniState == true)
   {
     // up right
-    seedHarvester.single_press(false);  // true == out
+    seedHarvester.single_press(false); // redo stage
   }
 
   else if (command == 3.0 && maniState == true)
   {
     // triangle button
+    seedHarvester.linearDrive(25,true); // offset out
+    seedHarvester.add_dis(-20);
   }
   else if (command == 4.0 && maniState == true)
   {
     // squre button
-    seedHarvester.linearDrive(20,false);
-    seedHarvester.add_dis(true, 20);
+    seedHarvester.linearDrive(20,false); // offset in
+    seedHarvester.add_dis(20);
   }
 
   maniStateCount++;
