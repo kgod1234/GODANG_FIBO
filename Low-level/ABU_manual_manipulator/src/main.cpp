@@ -61,18 +61,18 @@ BallShooter ballShooter(servoPin, limitSwitchPin, INA, INB, grb_ref1, grb_ref2, 
 
 #define RCCHECK(fn)                                                                                                    \
   {                                                                                                                    \
-	rcl_ret_t temp_rc = fn;                                                                                            \
-	if ((temp_rc != RCL_RET_OK))                                                                                       \
-	{                                                                                                                  \
-	  error_loop();                                                                                                    \
-	}                                                                                                                  \
+    rcl_ret_t temp_rc = fn;                                                                                            \
+    if ((temp_rc != RCL_RET_OK))                                                                                       \
+    {                                                                                                                  \
+      error_loop();                                                                                                    \
+    }                                                                                                                  \
   }
 #define RCSOFTCHECK(fn)                                                                                                \
   {                                                                                                                    \
-	rcl_ret_t temp_rc = fn;                                                                                            \
-	if ((temp_rc != RCL_RET_OK))                                                                                       \
-	{                                                                                                                  \
-	}                                                                                                                  \
+    rcl_ret_t temp_rc = fn;                                                                                            \
+    if ((temp_rc != RCL_RET_OK))                                                                                       \
+    {                                                                                                                  \
+    }                                                                                                                  \
   }
 // control setup
 
@@ -80,8 +80,8 @@ void error_loop()
 {
   while (1)
   {
-	digitalWrite(LED_PIN, !digitalRead(LED_PIN));
-	delay(2000);
+    digitalWrite(LED_PIN, !digitalRead(LED_PIN));
+    delay(2000);
   }
 }
 
@@ -92,61 +92,56 @@ void subscription_callback(const void* msgin)
 
   command = msg->data.data[3];
 
-  if (command != 0 && maniState == true)
+  if (command != 0 && command != 5.0 && maniState == true)
   {
-	maniState = false;
+    maniState = false;
   }
   if (maniStateCount == 10)
   {
-	maniStateCount = 0;
-	maniState = true;
+    maniStateCount = 0;
+    maniState = true;
   }
 
   if (command == 1.0 && ballShooterState != 1 && maniState == true)
   {
-	// x button
-	ballShooter.preparing();
-	ballShooterState = 1;
+    // x button
+    ballShooter.preparing();
+    ballShooterState = 1;
   }
   else if (command == 2.0 && ballShooterState != 2 && maniState == true)
   {
-	// o button
-	ballShooter.grab();
-	ballShooterState = 2;
+    // o button
+    ballShooter.grab();
+    ballShooterState = 2;
   }
   else if (command == 18.0 && ballShooterState != 3 && maniState == true && ballShooterState == 2)
   {
-	// trig left
-	ballShooter.shoot();
-	delay(100);
-	ballShooter.preparing();
-	ballShooterState = 3;
+    // trig left
+    ballShooter.shoot();
+    delay(100);
+    ballShooter.preparing();
+    ballShooterState = 3;
   }
   else if (command == 7.0 && maniState == true)
   {
-	// trig right
-	seedHarvester.stock();
-	delay(1000);
+    // trig right
+    seedHarvester.single_press(true);
   }
   else if (command == 6.0 && maniState == true)
   {
-	// up right
-	seedHarvester.linearDrive(10, true);  // true == out
+    // up right
+    seedHarvester.single_press(false);  // true == out
   }
-  else if (command == 5.0 && maniState == true)
-  {
-	// up left
-	seedHarvester.linearDrive(10, false);  // false == in
-  }
+
   else if (command == 3.0 && maniState == true)
   {
-	// triangle button
-	seedHarvester.preparing();
+    // triangle button
+    seedHarvester.preparing();
   }
   else if (command == 4.0 && maniState == true)
   {
-	// squre button
-	seedHarvester.grab();
+    // squre button
+    seedHarvester.grab();
   }
 
   maniStateCount++;
@@ -157,8 +152,8 @@ void timer_callback(rcl_timer_t* timer, int64_t last_call_time)
   RCLC_UNUSED(last_call_time);
   if (timer != NULL)
   {
-	debug_msg.data.data[3] = command;
-	RCSOFTCHECK(rcl_publish(&publisher, &debug_msg, NULL));
+    debug_msg.data.data[3] = command;
+    RCSOFTCHECK(rcl_publish(&publisher, &debug_msg, NULL));
   }
 }
 
@@ -189,11 +184,11 @@ void setup()
 
   // create subscriber
   RCCHECK(rclc_subscription_init_default(&subscriber, &node,
-										 ROSIDL_GET_MSG_TYPE_SUPPORT(std_msgs, msg, Float32MultiArray), "joy_data"));
+                                         ROSIDL_GET_MSG_TYPE_SUPPORT(std_msgs, msg, Float32MultiArray), "joy_data"));
 
   // create publisher
   RCCHECK(rclc_publisher_init_default(&publisher, &node, ROSIDL_GET_MSG_TYPE_SUPPORT(std_msgs, msg, Float32MultiArray),
-									  "debugging_mani"));
+                                      "debugging_mani"));
 
   const unsigned int timer_timeout = 20;
   RCCHECK(rclc_timer_init_default(&timer, &support, RCL_MS_TO_NS(timer_timeout), timer_callback));
@@ -205,13 +200,13 @@ void setup()
   msg.layout.dim.capacity = 4;
   msg.layout.dim.size = 4;
   msg.layout.dim.data =
-	  (std_msgs__msg__MultiArrayDimension*)malloc(msg.layout.dim.capacity * sizeof(std_msgs__msg__MultiArrayDimension));
+      (std_msgs__msg__MultiArrayDimension*)malloc(msg.layout.dim.capacity * sizeof(std_msgs__msg__MultiArrayDimension));
 
   for (size_t i = 0; i < msg.layout.dim.capacity; i++)
   {
-	msg.layout.dim.data[i].label.capacity = 4;
-	msg.layout.dim.data[i].label.size = 4;
-	msg.layout.dim.data[i].label.data = (char*)malloc(msg.layout.dim.data[i].label.capacity * sizeof(char));
+    msg.layout.dim.data[i].label.capacity = 4;
+    msg.layout.dim.data[i].label.size = 4;
+    msg.layout.dim.data[i].label.data = (char*)malloc(msg.layout.dim.data[i].label.capacity * sizeof(char));
   }
 
   // create executor
