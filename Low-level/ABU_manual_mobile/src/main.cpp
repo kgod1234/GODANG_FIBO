@@ -28,7 +28,6 @@ rcl_allocator_t allocator;
 rcl_node_t node;
 rcl_timer_t timer;
 
-
 // Edit Here
 // Motor Setup
 Motor FL(8, 14, 15, 17000, 100, 100);
@@ -48,6 +47,8 @@ long start_time, T;
 int currentStep = 0;
 int stepsCount = 0;
 bool newStepsAvailable = false;
+
+bool slowState = false;
 
 // Transform
 struct TransformStep
@@ -99,8 +100,17 @@ void subscription_callback(const void* msgin)
   digitalWrite(LED_PIN, HIGH);
 
   mobile_data.vx = mapfloat(msg->data.data[0], -1.0f, 1.0f, -0.92f, 0.92f);
-  mobile_data.vy = mapfloat(msg->data.data[1]*-1, -1.0f, 1.0f, -0.92f, 0.92f);
+  mobile_data.vy = mapfloat(msg->data.data[1] * -1, -1.0f, 1.0f, -0.92f, 0.92f);
   mobile_data.wz = mapfloat(msg->data.data[2], -1.0f, 1.0f, -2.65f, 2.65f);
+
+  if (msg->data.data[3] == 5)
+  {
+    slowState == true;
+  }
+  else
+  {
+    slowState == false;
+  }
 }
 
 void timer_callback(rcl_timer_t* timer, int64_t last_call_time)
@@ -112,20 +122,36 @@ void timer_callback(rcl_timer_t* timer, int64_t last_call_time)
     // debug_msg.data.data[0] = mobile_data.vy;
     // debug_msg.data.data[2] = mobile_data.wz;
 
-    Kinematics::RPM wheelSpeeds =
-        kinematics.Inverse_Kinematics(mobile_data.vx, mobile_data.vy, -1*(mobile_data.wz));  // Set Joy to 0.92 0.92 2.65
-    FL.setSpeed(mapfloat(wheelSpeeds.RPM_FL, -138, 138, -255, 255));
-    FR.setSpeed(mapfloat(wheelSpeeds.RPM_FR, -138, 138, -255, 255));
-    BL.setSpeed(mapfloat(wheelSpeeds.RPM_BL, -138, 138, -255, 255));
-    BR.setSpeed(mapfloat(wheelSpeeds.RPM_BR, -138, 138, -255, 255));
+    if (slowState)
+    {
+      Kinematics::RPM wheelSpeeds = kinematics.Inverse_Kinematics(mobile_data.vx, mobile_data.vy,
+                                                                  -1 * (mobile_data.wz));  // Set Joy to 0.92 0.92 2.65
+      FL.setSpeed(mapfloat(wheelSpeeds.RPM_FL, -138, 138, -255, 255) / 2);
+      FR.setSpeed(mapfloat(wheelSpeeds.RPM_FR, -138, 138, -255, 255) / 2);
+      BL.setSpeed(mapfloat(wheelSpeeds.RPM_BL, -138, 138, -255, 255) / 2);
+      BR.setSpeed(mapfloat(wheelSpeeds.RPM_BR, -138, 138, -255, 255) / 2);
 
-    debug_msg.data.data[0] = mapfloat(wheelSpeeds.RPM_FL, -138, 138, -255, 255);
-    debug_msg.data.data[1] = mapfloat(wheelSpeeds.RPM_FR, -138, 138, -255, 255);
-    debug_msg.data.data[2] = mapfloat(wheelSpeeds.RPM_BL, -138, 138, -255, 255);
-    debug_msg.data.data[3] = mapfloat(wheelSpeeds.RPM_BR, -138, 138, -255, 255);
+      debug_msg.data.data[0] = mapfloat(wheelSpeeds.RPM_FL, -138, 138, -255, 255) / 2;
+      debug_msg.data.data[1] = mapfloat(wheelSpeeds.RPM_FR, -138, 138, -255, 255) / 2;
+      debug_msg.data.data[2] = mapfloat(wheelSpeeds.RPM_BL, -138, 138, -255, 255) / 2;
+      debug_msg.data.data[3] = mapfloat(wheelSpeeds.RPM_BR, -138, 138, -255, 255) / 2;
+    }
+    else
+    {
+      Kinematics::RPM wheelSpeeds = kinematics.Inverse_Kinematics(mobile_data.vx, mobile_data.vy,
+                                                                  -1 * (mobile_data.wz));  // Set Joy to 0.92 0.92 2.65
+      FL.setSpeed(mapfloat(wheelSpeeds.RPM_FL, -138, 138, -255, 255));
+      FR.setSpeed(mapfloat(wheelSpeeds.RPM_FR, -138, 138, -255, 255));
+      BL.setSpeed(mapfloat(wheelSpeeds.RPM_BL, -138, 138, -255, 255));
+      BR.setSpeed(mapfloat(wheelSpeeds.RPM_BR, -138, 138, -255, 255));
+
+      debug_msg.data.data[0] = mapfloat(wheelSpeeds.RPM_FL, -138, 138, -255, 255);
+      debug_msg.data.data[1] = mapfloat(wheelSpeeds.RPM_FR, -138, 138, -255, 255);
+      debug_msg.data.data[2] = mapfloat(wheelSpeeds.RPM_BL, -138, 138, -255, 255);
+      debug_msg.data.data[3] = mapfloat(wheelSpeeds.RPM_BR, -138, 138, -255, 255);
+    }
 
     RCSOFTCHECK(rcl_publish(&publisher, &debug_msg, NULL));
-
   }
 }
 
