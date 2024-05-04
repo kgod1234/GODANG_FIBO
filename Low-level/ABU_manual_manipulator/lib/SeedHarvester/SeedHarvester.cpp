@@ -234,24 +234,29 @@ void SeedHarvester::drop_down() { // drop the seed down in deploying stage
   }
 }
 
-void SeedHarvester::poping(bool next){ // releasing seed stage
-  if(!harvest){ // check if not in harvest stage
+void SeedHarvester::poping(bool next){
+  if(!harvest){
         if(next){
           pop_stage++;
           if(pop_stage == 1){
-              drop(); // poping out to the droping position
+              drop();
           }
           else if(pop_stage == 2){
-              drop_down(); // deploy
+              drop_down();
           }
-          else if(pop_stage == 3 || pop_stage == 0){
-              grab(); // lock the seed ready to pop out of stack
+          else if(pop_stage == 3){
+              locking();
               pop_stage = 0;
           }
        }
        else{
-        if(pop_stage == 0){ // in case locking fail
-              release();
+        if(pop_stage == 0){
+          release();
+        }
+        else if(pop_stage == 1){
+          release();
+          linearDrive(manual_lock_dis, Rdir);
+          pop_stage = 2;
         }
         else{
           return;
