@@ -234,7 +234,7 @@ void SeedHarvester::drop_down() { // drop the seed down in deploying stage
   }
 }
 
-void SeedHarvester::poping(bool next){
+void SeedHarvester::poping(bool next){// release the seed
   if(!harvest){
         if(next){
           pop_stage++;
