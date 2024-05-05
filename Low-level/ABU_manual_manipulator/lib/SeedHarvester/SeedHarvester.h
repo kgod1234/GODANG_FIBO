@@ -26,12 +26,11 @@ public:
   void pull_down();
   void Stacking(bool next);
 
-  void locking();
   void drop();
   void drop_down();
-  void poping();
+  void poping(bool next);
 
-  void add_dis(bool log, int dis);
+  void add_dis(int dis);
  
   // additional from old gripper
   void lifter_up(int pwm); // pull the gripper up
@@ -54,7 +53,8 @@ private:
   int setzeropin_; // limit pin to set zero for step motor
 
   int storage = 0;
-  int manual_lock_dis = 445; // the initial pos in mm
+  int manual_lock_dis = 430; // the initial pos in mm
+  int max_dis = 430; // the max pos in mm
 
   int n_release = 0;
 
@@ -64,7 +64,7 @@ private:
   int grbAng = 0;
   int relAng = 90;
 
-  int pwm = 170;
+  int pwm = 200;
 
   bool harvest = true;
   bool ready_to_stack = true;

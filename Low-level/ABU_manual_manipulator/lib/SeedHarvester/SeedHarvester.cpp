@@ -2,24 +2,14 @@
 #include <Arduino.h>
 Servo GrabServo;
 
-SeedHarvester::SeedHarvester(int gpin, int lftA, int lftB, int Minlimit, int Maxlimit, int dirPin, int stepPin,
-                             int setzeropin)
-  : gpin_(gpin)
-  , lftA_(lftA)
-  , lftB_(lftB)
-  , Minlimitpin_(Minlimit)
-  , Maxlimitpin_(Maxlimit)
-  , dirPin_(dirPin)
-  , stepPin_(stepPin)
-  , setzeropin_(setzeropin)
-{
+SeedHarvester::SeedHarvester(int gpin, int lftA, int lftB, int Minlimit, int Maxlimit, int dirPin, int stepPin, int setzeropin)
+  : gpin_(gpin), lftA_(lftA), lftB_(lftB), Minlimitpin_(Minlimit), Maxlimitpin_(Maxlimit) ,dirPin_(dirPin), stepPin_(stepPin), setzeropin_(setzeropin) {
+  
 }
 
-void SeedHarvester::linearDrive(double dis, int dir)
-{
+void SeedHarvester::linearDrive(double dis, int dir) {
   double rpt = dis / 0.285;
-  for (int i = 0; i < rpt; i++)
-  {
+  for (int i = 0; i < rpt; i++) {
     digitalWrite(dirPin_, dir);
     digitalWrite(stepPin_, HIGH);
     delayMicroseconds(700);
@@ -29,10 +19,8 @@ void SeedHarvester::linearDrive(double dis, int dir)
   delay(500);
 }
 
-void SeedHarvester::setZero()
-{
-  while (digitalRead(setzeropin_) == 1)
-  {
+void SeedHarvester::setZero() {
+  while (digitalRead(setzeropin_) == 1) {
     digitalWrite(dirPin_, Rdir);
     digitalWrite(stepPin_, HIGH);
     delayMicroseconds(700);
@@ -42,10 +30,9 @@ void SeedHarvester::setZero()
   delay(500);
 }
 
-void SeedHarvester::lifter_up(int pwm)
-{
-  while (digitalRead(Minlimitpin_))
-  {  // up
+void SeedHarvester::lifter_up(int pwm){
+
+  while(digitalRead(Minlimitpin_)){ // up
     analogWrite(lftA_, 0);
     analogWrite(lftB_, pwm);
   }
@@ -54,10 +41,9 @@ void SeedHarvester::lifter_up(int pwm)
   delay(100);
 }
 
-void SeedHarvester::lifter_down(int pwm)
-{
-  while (digitalRead(Maxlimitpin_))
-  {  // down
+void SeedHarvester::lifter_down(int pwm){
+
+  while(digitalRead(Maxlimitpin_)){ // down
     analogWrite(lftA_, pwm);
     analogWrite(lftB_, 0);
   }
@@ -66,9 +52,9 @@ void SeedHarvester::lifter_down(int pwm)
   delay(100);
 }
 
-void SeedHarvester::lifter_up(int pwm, int mms)
-{
-  analogWrite(lftA_, 0);  // up
+void SeedHarvester::lifter_up(int pwm, int mms){
+
+  analogWrite(lftA_, 0); // up
   analogWrite(lftB_, pwm);
   delay(mms);
   analogWrite(lftA_, 0);
@@ -76,9 +62,9 @@ void SeedHarvester::lifter_up(int pwm, int mms)
   delay(100);
 }
 
-void SeedHarvester::lifter_down(int pwm, int mms)
-{
-  analogWrite(lftA_, pwm);  // down
+void SeedHarvester::lifter_down(int pwm, int mms){
+
+  analogWrite(lftA_, pwm); // down
   analogWrite(lftB_, 0);
   delay(mms);
   analogWrite(lftA_, 0);
@@ -86,133 +72,18 @@ void SeedHarvester::lifter_down(int pwm, int mms)
   delay(100);
 }
 
-void SeedHarvester::grab()
-{
+void SeedHarvester::grab() {
   GrabServo.write(grbAng);
   delay(500);
 }
 
-void SeedHarvester::release()
-{
+void SeedHarvester::release() {
   // delay(800);
   GrabServo.write(relAng);
   delay(500);
 }
 
-void SeedHarvester::singleRelease()
-{
-  if (storage == 0)
-  {
-    harvest = true;
-    return;
-  }
-  if (storage == 1)
-  {
-    //    GrabServo.write(85);
-    //    delay(500);
-    //    setZero();
-    //    grab();
-    delay(500);
-    linearDrive(manual_lock_dis, Ldir);
-    lifter_down(this->pwm, 800);
-    release();
-    delay(200);
-    // setZero();
-    storage = storage - 1;
-    harvest = true;
-    return;
-  }
-  else if (storage <= 6 && storage > 1)
-  {
-    linearDrive(manual_lock_dis, Ldir);
-    lifter_down(this->pwm, 800);
-    release();
-    delay(2000);
-
-    GrabServo.write(85);
-    delay(500);
-
-    lifter_up(this->pwm);
-
-    if (storage > 2)
-    {
-      linearDrive(gap + manual_lock_dis, Rdir);
-    }
-    else if (storage == 2)
-    {
-      setZero();
-    }
-    grab();
-  }
-  manual_lock_dis = manual_lock_dis + gap;
-  if (manual_lock_dis > 455)
-  {
-    manual_lock_dis = 455;
-  }
-  storage = storage - 1;
-}
-
-void SeedHarvester::singleHarvest_locking()
-{
-  if (storage == 6)
-  {
-    return;
-    harvest = false;
-  }
-
-  if (storage == 5)
-  {
-    // set pos of gripper
-    release();
-    linearDrive(manual_lock_dis, Ldir);
-    lifter_down(this->pwm);
-    delay(2000);
-    // grabbing stage
-    grab();
-    lifter_up(this->pwm, 1000);
-    linearDrive(manual_lock_dis - gap, Rdir);
-    harvest = false;
-  }
-
-  else if (storage > 0 && storage < 5)
-  {
-    // set pos of gripper
-    // release();
-
-    release();
-
-    // lifter_up(this->pwm);
-    linearDrive(manual_lock_dis, Ldir);
-
-    // GrabServo.write(relAng);
-    lifter_down(this->pwm);
-    delay(2000);
-    // grabbing stage
-    grab();
-    lifter_up(this->pwm);
-    linearDrive(manual_lock_dis - gap, Rdir);
-  }
-
-  else if (storage == 0)
-  {
-    // set pos of gripper
-    GrabServo.write(relAng);
-    // grabbing stage
-    delay(2000);
-    grab();
-    lifter_up(this->pwm);
-    setZero();
-    storage = storage + 1;
-    return;
-  }
-
-  // some pos cal
-  manual_lock_dis = manual_lock_dis - gap;
-  storage = storage + 1;
-}
-
-void SeedHarvester::setup()
-{
+void SeedHarvester::setup(){
   // dc motor
   pinMode(lftA_, OUTPUT);
   pinMode(lftB_, OUTPUT);
@@ -231,6 +102,7 @@ void SeedHarvester::setup()
   setZero();
   linearDrive(manual_lock_dis, Ldir);
 
+
   lifter_down(this->pwm);
 
   analogWrite(lftA_, 0);
@@ -239,29 +111,23 @@ void SeedHarvester::setup()
   release();
 }
 
-void SeedHarvester::stack()
-{
-  if (ready_to_stack && pulling)
-  {
-    if (storage == 6)
-    {
-      harvest = false;
+void SeedHarvester::stack(){ // stack in storage
+  if(ready_to_stack && pulling){ // check if ready to stack and the seed is already grab
+    if (storage == 6) { // prevent to store more than 6
+      harvest = false; // telling haervester that no need to harvest
       return;
     }
-    if (storage == 0)
-    {
+    if (storage == 0){
       setZero();
       storage = storage + 1;
       ready_to_stack = false;
-      stage = 2;
+      stage = 2; 
       return;
     }
-    else if (storage > 0 && storage < 5)
-    {
+    else if(storage > 0 && storage < 5){
       linearDrive(manual_lock_dis - gap, Rdir);
     }
-    else if (storage == 5)
-    {
+    else if(storage == 5){
       linearDrive(manual_lock_dis - gap, Rdir);
       pop_stage = 0;
       harvest = false;
@@ -273,30 +139,24 @@ void SeedHarvester::stack()
   stage = 2;
 }
 
-void SeedHarvester::preparing()
-{
-  if (!ready_to_stack)
-  {
-    release();
-    linearDrive(manual_lock_dis, Ldir);
-    lifter_down(this->pwm);
-  }
-  stage = 0;
-  ready_to_stack = true;
-  pulling = false;
+void SeedHarvester::preparing(){ // preparing to grab
+    if( !ready_to_stack ){
+      release();
+      linearDrive(manual_lock_dis, Ldir);
+      lifter_down(this->pwm);
+    }
+    stage = 0;
+    ready_to_stack = true;
+    pulling = false;
 }
 
-void SeedHarvester::pull_up()
-{
-  if (ready_to_stack && !pulling)
-  {
-    if (storage == 6)
-    {
+void SeedHarvester::pull_up(){ // pull the seed up
+  if(ready_to_stack && !pulling){
+    if (storage == 6) {
       harvest = false;
       return;
     }
-    else
-    {
+    else{
       grab();
       lifter_up(this->pwm);
       stage = 1;
@@ -306,48 +166,36 @@ void SeedHarvester::pull_up()
   }
 }
 
-void SeedHarvester::pull_down()
-{
-  if (ready_to_stack && pulling)
-  {
-    release();
+void SeedHarvester::pull_down(){ // undo pull up
+  if(ready_to_stack && pulling){
     lifter_down(this->pwm);
+    release();
     pulling = false;
   }
 }
 
-void SeedHarvester::Stacking(bool next)
-{
-  if (harvest)
-  {
-    if (next)
-    {
+void SeedHarvester::Stacking(bool next){ // to stack seed in harvest stage
+  if(harvest){ // check if in harvest stage
+    if(next){ // if forward stage
       stage++;
-      if (stage == 1)
-      {
-        pull_up();
+      if(stage == 1){
+        pull_up(); // pulling the seed up
       }
-      else if (stage == 2)
-      {
-        stack();
+      else if(stage == 2) {
+        stack(); // stack in storage
       }
-      else
-      {
-        preparing();
+      else{
+        preparing(); // prepare to grab
       }
     }
-    else
-    {
-      if (stage > 0)
-      {
+    else{ // if redo stage
+      if(stage > 0){
         stage--;
       }
-      if (stage == 0)
-      {
+      if(stage == 0){
         pull_down();
       }
-      else
-      {
+      else{
         storage--;
         preparing();
         manual_lock_dis = manual_lock_dis + gap;
@@ -356,92 +204,76 @@ void SeedHarvester::Stacking(bool next)
   }
 }
 
-void SeedHarvester::drop()
-{
-  if (!harvest)
-  {
-    if (storage == 0)
-    {
+void SeedHarvester::drop() { // to the droping position
+  if(!harvest){ // check if not in harvest stage
+    if (storage == 0) {
       harvest = true;
       return;
     }
-    linearDrive(manual_lock_dis, Ldir);
+      linearDrive(manual_lock_dis, Ldir);
   }
 }
 
-void SeedHarvester::drop_down()
-{
-  if (!harvest)
-  {
-    lifter_down(this->pwm, 800);
+void SeedHarvester::drop_down() { // drop the seed down in deploying stage
+  if(!harvest){ // check if not in harvest stage
+    lifter_down(this->pwm, 800); // drop down fr
     release();
-    lifter_up(this->pwm);
+    lifter_up(this->pwm); // take the gripper up
     manual_lock_dis = manual_lock_dis + gap;
     storage = storage - 1;
-    if (storage == 1)
-    {
+    if (storage == 1) { // moving to next seed to deploy (last one)
       setZero();
       manual_lock_dis = 435;
       return;
-    }
-    linearDrive(manual_lock_dis, Rdir);
-    if (storage == 0)
-    {
+    } 
+    linearDrive(manual_lock_dis, Rdir);// moving to next seed to deploy
+    if (storage == 0) {
       harvest = true;
       return;
     }
   }
 }
 
-void SeedHarvester::locking()
-{
-  if (!harvest)
-  {
-    grab();
-  }
+void SeedHarvester::poping(bool next){// release the seed
+  if(!harvest){
+        if(next){
+          pop_stage++;
+          if(pop_stage == 1){
+              drop();
+          }
+          else if(pop_stage == 2){
+              drop_down();
+          }
+          else if(pop_stage == 3){
+              locking();
+              pop_stage = 0;
+          }
+       }
+       else{
+        if(pop_stage == 0){
+          release();
+        }
+        else if(pop_stage == 1){
+          release();
+          linearDrive(manual_lock_dis, Rdir);
+          pop_stage = 2;
+        }
+        else{
+          return;
+        }
+      }
+    }
 }
 
-void SeedHarvester::poping()
-{
-  if (!harvest)
-  {
-    pop_stage++;
-    if (pop_stage == 1)
-    {
-      drop();
-    }
-    else if (pop_stage == 2)
-    {
-      drop_down();
-    }
-    else if (pop_stage == 3)
-    {
-      locking();
-      pop_stage = 0;
-    }
-  }
-}
-
-void SeedHarvester::add_dis(bool log, int dis)
-{
-  if (log)
-  {
+void SeedHarvester::add_dis(bool log, int dis){ // adding the traveling position
     manual_lock_dis = manual_lock_dis + dis;
-  }
-  else
-  {
-    manual_lock_dis = manual_lock_dis - dis;
-  }
 }
 
-void SeedHarvester::single_press(bool next)
-{
-  if (harvest == true)
-  {
-    Stacking(next);
+void SeedHarvester::single_press(bool next){ // for pressing
+  if(harvest == true){// check if in harvest stage
+    Stacking(next); // next tell u to move to next stage if it true
   }
-  else
-  {
-    poping();
+  else{
+    poping(next);
   }
 }
