@@ -1,46 +1,25 @@
-// RP2040 dual-core example
-// Gary Sims October 2022
-
-// RP2040: Arduino code will normally execute only on core 0,
-// with the 2nd core sitting idle in a low power state.
-
 #include <Arduino.h>
-
-
-int count0, count1;
+#include <FreeRTOS.h>
+#include <task.h>
 
 void setup()
 {
-  Serial.begin(115200);
-  while (!Serial)
-  {
-    delay(1);  // wait for serial port to connect.
-  }
-
-  count0 = 0;
+  Serial.begin(921600);
 }
 
 void setup1()
 {
-  count1 = 1000;
+
 }
 
 void loop()
 {
-  Serial.print("loop0():");
-  Serial.println(count0);
-  count0++;
-  if (count0 > 1000)
-    count0 = 0;
-  delay(1000);
+  Serial.println("loop");
+  delay(100);
 }
 
 void loop1()
 {
-  Serial.print("loop1():");
-  Serial.println(count1);
-  count1--;
-  if (count1 <= 0)
-    count1 = 1000;
-  delay(2500);
+  Serial.println("loop1");
+  delay(1000);
 }
