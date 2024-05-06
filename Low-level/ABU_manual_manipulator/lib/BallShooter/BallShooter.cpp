@@ -143,14 +143,13 @@ void BallShooter::wheel_stop()
 // additional function for control
 void BallShooter::preparing()
 {  // keep the grabber on the ground to grab a ball
-
+  s.write(140);
   motor(-230);  // down
   delay(1600);
 
   motor_stop();  // stop motor
   delay(200);
-
-  s.write(140);  // keep the grabber avaiable
+  // keep the grabber avaiable
 }
 
 void BallShooter::grab()
@@ -173,32 +172,17 @@ void BallShooter::shoot()
   s.write(140);
   //  delay(500);
   // On fly wheel at full speed
-  int power = 0;
-  wheel(power);
+  // int power = 0;
+  wheel(255);
   // deliver a ball to fly wheel
-  unsigned long long int start = millis();
   digitalWrite(dirPin_, LOW);
   while (digitalRead(limitSwitchPin_) == 1)
   {
-    if (power > 255)
-    {
-      power = 255;
-    }
-    if (millis() - start == 10)
-    {
-      start = millis();
-      power += 70;
-      wheel(power);
-    }
     digitalWrite(stepPin_, HIGH);
     delayMicroseconds(1000);
     digitalWrite(stepPin_, LOW);
     delayMicroseconds(1000);
   }
-  // slow down the wheel
-  //   for(int i = 255 ; i > 0; i-52){
-  //     wheel(i); delay(100);
-  //   }
   // stop
   wheel_stop();
   s.write(180);

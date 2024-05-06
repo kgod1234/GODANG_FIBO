@@ -53,8 +53,8 @@ private:
   int setzeropin_; // limit pin to set zero for step motor
 
   int storage = 0;
-  int manual_lock_dis = 430; // the initial pos in mm
-  int max_dis = 430; // the max pos in mm
+  int manual_lock_dis = 440; // the initial pos in mm
+  int max_dis = 440; // the max pos in mm
 
   int n_release = 0;
 
@@ -62,7 +62,7 @@ private:
   bool Rdir = false; // go in to set zero pos
 
   int grbAng = 0;
-  int relAng = 90;
+  int relAng = 50;
 
   int pwm = 200;
 

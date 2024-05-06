@@ -130,6 +130,7 @@ void SeedHarvester::stack(){ // stack in storage
     else if(storage == 5){
       linearDrive(manual_lock_dis - gap, Rdir);
       pop_stage = 0;
+      // stage = 0;
       harvest = false;
     }
     manual_lock_dis = manual_lock_dis - gap;
@@ -141,6 +142,17 @@ void SeedHarvester::stack(){ // stack in storage
 
 void SeedHarvester::preparing(){ // preparing to grab
     if( !ready_to_stack ){
+      if(storage == 5){
+        lifter_down(this->pwm,500);
+        release();
+        lifter_up(this->pwm);
+        linearDrive(manual_lock_dis, Ldir);
+        lifter_down(this->pwm);
+        stage = 0;
+        ready_to_stack = true;
+        pulling = false;
+        return;
+      }
       release();
       linearDrive(manual_lock_dis, Ldir);
       lifter_down(this->pwm);
@@ -193,7 +205,9 @@ void SeedHarvester::Stacking(bool next){ // to stack seed in harvest stage
         stage--;
       }
       if(stage == 0){
-        pull_down();
+        release();
+        lifter_down(this->pwm);
+        pulling = false;
       }
       else{
         storage--;
@@ -223,14 +237,19 @@ void SeedHarvester::drop_down() { // drop the seed down in deploying stage
     storage = storage - 1;
     if (storage == 1) { // moving to next seed to deploy (last one)
       setZero();
-      manual_lock_dis = 435;
+      manual_lock_dis = max_dis;
+      // harvest = true;
+      stage = 0;
+      return;
+    } 
+    if (storage == 0) { // moving to next seed to deploy (last one)
+      setZero();
+      stage = 0;
+      manual_lock_dis = max_dis;
+      harvest = true;
       return;
     } 
     linearDrive(manual_lock_dis, Rdir);// moving to next seed to deploy
-    if (storage == 0) {
-      harvest = true;
-      return;
-    }
   }
 }
 
