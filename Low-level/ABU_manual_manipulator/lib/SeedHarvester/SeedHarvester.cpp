@@ -245,7 +245,7 @@ void SeedHarvester::poping(bool next){// release the seed
               drop_down();
           }
           else if(pop_stage == 3){
-              locking();
+              grab();
               pop_stage = 0;
           }
        }
@@ -265,7 +265,7 @@ void SeedHarvester::poping(bool next){// release the seed
     }
 }
 
-void SeedHarvester::add_dis(bool log, int dis){ // adding the traveling position
+void SeedHarvester::add_dis(int dis){ // adding the traveling position
     manual_lock_dis = manual_lock_dis + dis;
 }
 

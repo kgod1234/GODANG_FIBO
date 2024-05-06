@@ -1,17 +1,15 @@
+import Function
+
 import rclpy
 from rclpy.node import Node
 
 from std_msgs.msg import Float32MultiArray, MultiArrayDimension
 
-#Program
-# import tracking
-
-
-class MinimalPublisher(Node):
+class MobileNode(Node):
 
     def __init__(self):
-        super().__init__("minimal_publisher")
-        self.publisher_ = self.create_publisher(Float32MultiArray, "pid_data", 10)
+        super().__init__("mobile_node")
+        self.publisher_ = self.create_publisher(Float32MultiArray, "pos_data", 10)
         timer_period = 0.01  # seconds
         self.timer = self.create_timer(timer_period, self.timer_callback)
         # self.lt =  tracking.LineTracker()
@@ -31,14 +29,14 @@ class MinimalPublisher(Node):
 def main(args=None):
     rclpy.init(args=args)
 
-    minimal_publisher = MinimalPublisher()
+    mobile_node = MobileNode()
 
-    rclpy.spin(minimal_publisher)
+    rclpy.spin(mobile_node)
 
     # Destroy the node explicitly
     # (optional - otherwise it will be done automatically
     # when the garbage collector destroys the node object)
-    minimal_publisher.destroy_node()
+    mobile_node.destroy_node()
     rclpy.shutdown()
 
 
