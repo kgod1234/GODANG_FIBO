@@ -39,32 +39,24 @@ def angular_difference(target, current):
         difference -= 360
     return difference
 
+
 def GoToPosition(target_x, target_y, target_z):
-    
-    PositionReset()
 
-    while True:
-        current_position = ReadPosition()
-        if current_position is None:
-            continue
+    current_position = ReadPosition()
 
-        current_x, current_y, current_z = current_position
-        error_x = target_x - current_x
-        error_y = target_y - current_y
-        error_z = angular_difference(target_z, current_z)
+    current_x, current_y, current_z = current_position
+    error_x = target_x - current_x
+    error_y = target_y - current_y
+    error_z = angular_difference(target_z, current_z)
 
-        error_magnitude = math.sqrt(error_x**2 + error_y**2)
-        error_direction = math.atan2(error_y, error_x)
+    error_magnitude = math.sqrt(error_x**2 + error_y**2)
+    error_direction = math.atan2(error_y, error_x)
 
-        vx = PosX.update(error_magnitude * math.cos(error_direction))
-        vy = PosY.update(error_magnitude * math.sin(error_direction))
-        vz = PosZ.update(error_z)
+    vx = PosX.update(error_magnitude * math.cos(error_direction))
+    vy = PosY.update(error_magnitude * math.sin(error_direction))
+    vz = PosZ.update(error_z)
 
-        SendVelocity(vx, vy, vz)
+    SendVelocity(vx, vy, vz)
 
-        if abs(error_x) <= 0.03 and abs(error_y) <= 0.03 and abs(error_z) <= 1:
-            SendVelocity(0, 0, 0)
-            break
-
-        # print(f"Moving to ({target_x}, {target_y}, {target_z}) from ({current_x}, {current_y}, {current_z})")
-        # time.sleep(100)
+    if abs(error_x) <= 0.03 and abs(error_y) <= 0.03 and abs(error_z) <= 1:
+        SendVelocity(0, 0, 0)

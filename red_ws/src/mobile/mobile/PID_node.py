@@ -3,16 +3,17 @@ import Function
 import rclpy
 from rclpy.node import Node
 
-from std_msgs.msg import Float32MultiArray, MultiArrayDimension
+from std_msgs.msg import String
 
 class MobileNode(Node):
 
     def __init__(self):
         super().__init__("mobile_node")
-        self.publisher_ = self.create_publisher(Float32MultiArray, "pos_data", 10)
-        timer_period = 0.01  # seconds
+        self.publisher_ = self.create_publisher(String, "vel_data", 10)
+        self.subscriptions_ = self.create_subscription(String, "pos_data" , 10)
+        timer_period = 0.01  # 100 hz
         self.timer = self.create_timer(timer_period, self.timer_callback)
-        # self.lt =  tracking.LineTracker()
+
 
     def timer_callback(self):
         # PID_out = self.lt.PID_Read()
