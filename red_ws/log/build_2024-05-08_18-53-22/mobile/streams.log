@@ -1,0 +1,30 @@
+[2.008s] Invoking command in '/home/tien/Documents/GitHub/ALL_CODE/red_ws/src/mobile': PYTHONPATH=/home/tien/Documents/GitHub/ALL_CODE/red_ws/build/mobile/prefix_override:/home/tien/Documents/GitHub/ALL_CODE/red_ws/install/mobile/lib/python3.10/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated setup.py egg_info --egg-base ../../build/mobile build --build-base /home/tien/Documents/GitHub/ALL_CODE/red_ws/build/mobile/build install --record /home/tien/Documents/GitHub/ALL_CODE/red_ws/build/mobile/install.log --single-version-externally-managed install_data
+[2.972s] running egg_info
+[2.974s] writing ../../build/mobile/mobile.egg-info/PKG-INFO
+[2.974s] writing dependency_links to ../../build/mobile/mobile.egg-info/dependency_links.txt
+[2.975s] writing entry points to ../../build/mobile/mobile.egg-info/entry_points.txt
+[2.975s] writing requirements to ../../build/mobile/mobile.egg-info/requires.txt
+[2.975s] writing top-level names to ../../build/mobile/mobile.egg-info/top_level.txt
+[2.981s] reading manifest file '../../build/mobile/mobile.egg-info/SOURCES.txt'
+[2.984s] writing manifest file '../../build/mobile/mobile.egg-info/SOURCES.txt'
+[2.984s] running build
+[2.984s] running build_py
+[2.984s] copying mobile/PID_node.py -> /home/tien/Documents/GitHub/ALL_CODE/red_ws/build/mobile/build/lib/mobile
+[2.985s] copying mobile/Functionn.py -> /home/tien/Documents/GitHub/ALL_CODE/red_ws/build/mobile/build/lib/mobile
+[2.985s] copying mobile/PID.py -> /home/tien/Documents/GitHub/ALL_CODE/red_ws/build/mobile/build/lib/mobile
+[2.986s] running install
+[2.987s] running install_lib
+[2.991s] copying /home/tien/Documents/GitHub/ALL_CODE/red_ws/build/mobile/build/lib/mobile/PID_node.py -> /home/tien/Documents/GitHub/ALL_CODE/red_ws/install/mobile/lib/python3.10/site-packages/mobile
+[2.992s] copying /home/tien/Documents/GitHub/ALL_CODE/red_ws/build/mobile/build/lib/mobile/Functionn.py -> /home/tien/Documents/GitHub/ALL_CODE/red_ws/install/mobile/lib/python3.10/site-packages/mobile
+[2.993s] copying /home/tien/Documents/GitHub/ALL_CODE/red_ws/build/mobile/build/lib/mobile/PID.py -> /home/tien/Documents/GitHub/ALL_CODE/red_ws/install/mobile/lib/python3.10/site-packages/mobile
+[2.995s] byte-compiling /home/tien/Documents/GitHub/ALL_CODE/red_ws/install/mobile/lib/python3.10/site-packages/mobile/PID_node.py to PID_node.cpython-310.pyc
+[2.998s] byte-compiling /home/tien/Documents/GitHub/ALL_CODE/red_ws/install/mobile/lib/python3.10/site-packages/mobile/Functionn.py to Functionn.cpython-310.pyc
+[2.999s] byte-compiling /home/tien/Documents/GitHub/ALL_CODE/red_ws/install/mobile/lib/python3.10/site-packages/mobile/PID.py to PID.cpython-310.pyc
+[3.001s] running install_data
+[3.001s] running install_egg_info
+[3.005s] removing '/home/tien/Documents/GitHub/ALL_CODE/red_ws/install/mobile/lib/python3.10/site-packages/mobile-0.0.0-py3.10.egg-info' (and everything under it)
+[3.006s] Copying ../../build/mobile/mobile.egg-info to /home/tien/Documents/GitHub/ALL_CODE/red_ws/install/mobile/lib/python3.10/site-packages/mobile-0.0.0-py3.10.egg-info
+[3.008s] running install_scripts
+[3.079s] Installing PID_test script to /home/tien/Documents/GitHub/ALL_CODE/red_ws/install/mobile/lib/mobile
+[3.080s] writing list of installed files to '/home/tien/Documents/GitHub/ALL_CODE/red_ws/build/mobile/install.log'
+[3.147s] Invoked command in '/home/tien/Documents/GitHub/ALL_CODE/red_ws/src/mobile' returned '0': PYTHONPATH=/home/tien/Documents/GitHub/ALL_CODE/red_ws/build/mobile/prefix_override:/home/tien/Documents/GitHub/ALL_CODE/red_ws/install/mobile/lib/python3.10/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated setup.py egg_info --egg-base ../../build/mobile build --build-base /home/tien/Documents/GitHub/ALL_CODE/red_ws/build/mobile/build install --record /home/tien/Documents/GitHub/ALL_CODE/red_ws/build/mobile/install.log --single-version-externally-managed install_data

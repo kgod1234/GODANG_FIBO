@@ -1,0 +1,20 @@
+[2.235s] Invoking command in '/home/tien/Documents/GitHub/ALL_CODE/red_ws/src/state': PYTHONPATH=/home/tien/Documents/GitHub/ALL_CODE/red_ws/build/state/prefix_override:/home/tien/Documents/GitHub/ALL_CODE/red_ws/install/state/lib/python3.10/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated setup.py egg_info --egg-base ../../build/state build --build-base /home/tien/Documents/GitHub/ALL_CODE/red_ws/build/state/build install --record /home/tien/Documents/GitHub/ALL_CODE/red_ws/build/state/install.log --single-version-externally-managed install_data
+[2.923s] running egg_info
+[2.925s] writing ../../build/state/state.egg-info/PKG-INFO
+[2.926s] writing dependency_links to ../../build/state/state.egg-info/dependency_links.txt
+[2.927s] writing entry points to ../../build/state/state.egg-info/entry_points.txt
+[2.927s] writing requirements to ../../build/state/state.egg-info/requires.txt
+[2.927s] writing top-level names to ../../build/state/state.egg-info/top_level.txt
+[2.931s] reading manifest file '../../build/state/state.egg-info/SOURCES.txt'
+[2.932s] writing manifest file '../../build/state/state.egg-info/SOURCES.txt'
+[2.933s] running build
+[2.933s] running build_py
+[2.933s] running install
+[2.934s] running install_lib
+[2.937s] running install_data
+[2.937s] running install_egg_info
+[2.942s] removing '/home/tien/Documents/GitHub/ALL_CODE/red_ws/install/state/lib/python3.10/site-packages/state-0.0.0-py3.10.egg-info' (and everything under it)
+[2.943s] Copying ../../build/state/state.egg-info to /home/tien/Documents/GitHub/ALL_CODE/red_ws/install/state/lib/python3.10/site-packages/state-0.0.0-py3.10.egg-info
+[2.946s] running install_scripts
+[2.991s] writing list of installed files to '/home/tien/Documents/GitHub/ALL_CODE/red_ws/build/state/install.log'
+[3.051s] Invoked command in '/home/tien/Documents/GitHub/ALL_CODE/red_ws/src/state' returned '0': PYTHONPATH=/home/tien/Documents/GitHub/ALL_CODE/red_ws/build/state/prefix_override:/home/tien/Documents/GitHub/ALL_CODE/red_ws/install/state/lib/python3.10/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated setup.py egg_info --egg-base ../../build/state build --build-base /home/tien/Documents/GitHub/ALL_CODE/red_ws/build/state/build install --record /home/tien/Documents/GitHub/ALL_CODE/red_ws/build/state/install.log --single-version-externally-managed install_data

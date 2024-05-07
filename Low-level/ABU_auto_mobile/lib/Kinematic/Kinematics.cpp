@@ -62,12 +62,12 @@ Kinematics::Position Kinematics::Forward_Kinematics_Position(float radps_fl, flo
   // float dt = 1 / 1000.0;
   current_position.x += basev.vx * dt;
   current_position.y += basev.vy * dt;
-  current_position.theta += basev.wz * dt * (180.0 / M_PI);
-  current_position.theta = fmod(current_position.theta, 360.0);
+  // current_position.theta += basev.wz * dt * (180.0 / M_PI);
+  // current_position.theta = fmod(current_position.theta, 360.0);
 
-  if (current_position.theta < 0) {
-    current_position.theta += 360.0;
-  }
+  // if (current_position.theta < 0) {
+  //   current_position.theta += 360.0;
+  // }
 
   return current_position;
 }

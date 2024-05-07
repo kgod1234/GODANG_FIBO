@@ -1,0 +1,20 @@
+[2.199s] Invoking command in '/home/tien/Documents/GitHub/ALL_CODE/red_ws/src/vision': PYTHONPATH=/home/tien/Documents/GitHub/ALL_CODE/red_ws/build/vision/prefix_override:/home/tien/Documents/GitHub/ALL_CODE/red_ws/install/vision/lib/python3.10/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated setup.py egg_info --egg-base ../../build/vision build --build-base /home/tien/Documents/GitHub/ALL_CODE/red_ws/build/vision/build install --record /home/tien/Documents/GitHub/ALL_CODE/red_ws/build/vision/install.log --single-version-externally-managed install_data
+[2.878s] running egg_info
+[2.880s] writing ../../build/vision/vision.egg-info/PKG-INFO
+[2.881s] writing dependency_links to ../../build/vision/vision.egg-info/dependency_links.txt
+[2.882s] writing entry points to ../../build/vision/vision.egg-info/entry_points.txt
+[2.882s] writing requirements to ../../build/vision/vision.egg-info/requires.txt
+[2.883s] writing top-level names to ../../build/vision/vision.egg-info/top_level.txt
+[2.887s] reading manifest file '../../build/vision/vision.egg-info/SOURCES.txt'
+[2.889s] writing manifest file '../../build/vision/vision.egg-info/SOURCES.txt'
+[2.889s] running build
+[2.889s] running build_py
+[2.890s] running install
+[2.890s] running install_lib
+[2.893s] running install_data
+[2.894s] running install_egg_info
+[2.899s] removing '/home/tien/Documents/GitHub/ALL_CODE/red_ws/install/vision/lib/python3.10/site-packages/vision-0.0.0-py3.10.egg-info' (and everything under it)
+[2.900s] Copying ../../build/vision/vision.egg-info to /home/tien/Documents/GitHub/ALL_CODE/red_ws/install/vision/lib/python3.10/site-packages/vision-0.0.0-py3.10.egg-info
+[2.901s] running install_scripts
+[2.953s] writing list of installed files to '/home/tien/Documents/GitHub/ALL_CODE/red_ws/build/vision/install.log'
+[3.026s] Invoked command in '/home/tien/Documents/GitHub/ALL_CODE/red_ws/src/vision' returned '0': PYTHONPATH=/home/tien/Documents/GitHub/ALL_CODE/red_ws/build/vision/prefix_override:/home/tien/Documents/GitHub/ALL_CODE/red_ws/install/vision/lib/python3.10/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated setup.py egg_info --egg-base ../../build/vision build --build-base /home/tien/Documents/GitHub/ALL_CODE/red_ws/build/vision/build install --record /home/tien/Documents/GitHub/ALL_CODE/red_ws/build/vision/install.log --single-version-externally-managed install_data
