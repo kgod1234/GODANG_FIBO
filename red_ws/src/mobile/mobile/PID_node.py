@@ -1,29 +1,32 @@
-import Function
+from Function import PositionController
 
 import rclpy
 from rclpy.node import Node
 
-from std_msgs.msg import String
+from std_msgs.msg import Float32MultiArray
 
 class MobileNode(Node):
 
     def __init__(self):
         super().__init__("mobile_node")
-        self.publisher_ = self.create_publisher(String, "vel_data", 10)
-        self.subscriptions_ = self.create_subscription(String, "pos_data" , 10)
+        self.publisher_ = self.create_publisher(Float32MultiArray, "vel_data", 10)
+        self.subscription_ = self.create_subscription(Float32MultiArray, "pos_data" ,self.listener_callback, 10)
+        self.subscription_  # prevent unused variable warning
         timer_period = 0.01  # 100 hz
         self.timer = self.create_timer(timer_period, self.timer_callback)
-
-
-    def timer_callback(self):
-        # PID_out = self.lt.PID_Read()
-        # Con_state = self.lt.condition_met()
+        self.vx, self.vy, self.vz = 0, 0, 0
+        self.pos_x, self.pos_y, self.pos_z = 0,0,0
+        self.pos_control = PositionController()
+        self.pos_control.position_reset()
         
+    def listener_callback(self, msg):
+        self.pos_x = msg.data[0]
+        self.pos_y = msg.data[1]
+        self.pos_z = msg.data[2]
+
+    def timer_callback(self):        
         msg = Float32MultiArray()
-        msg.data = [1.0,2.5, 3.9]
-        # msg.layout.dim.append(MultiArrayDimension(label='rows', size=3, stride=3))
-        # msg.layout.dim.append(MultiArrayDimension(label='columns', size=1, stride=1))
-        # msg.data = [PID_out,0,0]
+        msg.data = self.pos_control.go_to_position(5,0,0,self.pos_x, self.pos_y, self.pos_z)
         self.publisher_.publish(msg)
 
 

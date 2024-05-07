@@ -1,0 +1,36 @@
+[2.127s] Invoking command in '/home/tien/Documents/GitHub/ALL_CODE/red_ws/src/state': PYTHONPATH=/home/tien/Documents/GitHub/ALL_CODE/red_ws/build/state/prefix_override:/home/tien/Documents/GitHub/ALL_CODE/red_ws/install/state/lib/python3.10/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated setup.py egg_info --egg-base ../../build/state build --build-base /home/tien/Documents/GitHub/ALL_CODE/red_ws/build/state/build install --record /home/tien/Documents/GitHub/ALL_CODE/red_ws/build/state/install.log --single-version-externally-managed install_data
+[2.670s] running egg_info
+[2.670s] creating ../../build/state/state.egg-info
+[2.671s] writing ../../build/state/state.egg-info/PKG-INFO
+[2.671s] writing dependency_links to ../../build/state/state.egg-info/dependency_links.txt
+[2.671s] writing entry points to ../../build/state/state.egg-info/entry_points.txt
+[2.672s] writing requirements to ../../build/state/state.egg-info/requires.txt
+[2.672s] writing top-level names to ../../build/state/state.egg-info/top_level.txt
+[2.672s] writing manifest file '../../build/state/state.egg-info/SOURCES.txt'
+[2.676s] reading manifest file '../../build/state/state.egg-info/SOURCES.txt'
+[2.678s] writing manifest file '../../build/state/state.egg-info/SOURCES.txt'
+[2.678s] running build
+[2.678s] running build_py
+[2.679s] creating /home/tien/Documents/GitHub/ALL_CODE/red_ws/build/state/build
+[2.679s] creating /home/tien/Documents/GitHub/ALL_CODE/red_ws/build/state/build/lib
+[2.679s] creating /home/tien/Documents/GitHub/ALL_CODE/red_ws/build/state/build/lib/state
+[2.680s] copying state/state_node.py -> /home/tien/Documents/GitHub/ALL_CODE/red_ws/build/state/build/lib/state
+[2.680s] copying state/__init__.py -> /home/tien/Documents/GitHub/ALL_CODE/red_ws/build/state/build/lib/state
+[2.681s] running install
+[2.681s] running install_lib
+[2.681s] creating /home/tien/Documents/GitHub/ALL_CODE/red_ws/install/state/lib/python3.10/site-packages/state
+[2.681s] copying /home/tien/Documents/GitHub/ALL_CODE/red_ws/build/state/build/lib/state/state_node.py -> /home/tien/Documents/GitHub/ALL_CODE/red_ws/install/state/lib/python3.10/site-packages/state
+[2.681s] copying /home/tien/Documents/GitHub/ALL_CODE/red_ws/build/state/build/lib/state/__init__.py -> /home/tien/Documents/GitHub/ALL_CODE/red_ws/install/state/lib/python3.10/site-packages/state
+[2.682s] byte-compiling /home/tien/Documents/GitHub/ALL_CODE/red_ws/install/state/lib/python3.10/site-packages/state/state_node.py to state_node.cpython-310.pyc
+[2.683s] byte-compiling /home/tien/Documents/GitHub/ALL_CODE/red_ws/install/state/lib/python3.10/site-packages/state/__init__.py to __init__.cpython-310.pyc
+[2.683s] running install_data
+[2.684s] creating /home/tien/Documents/GitHub/ALL_CODE/red_ws/install/state/share/ament_index
+[2.684s] creating /home/tien/Documents/GitHub/ALL_CODE/red_ws/install/state/share/ament_index/resource_index
+[2.684s] creating /home/tien/Documents/GitHub/ALL_CODE/red_ws/install/state/share/ament_index/resource_index/packages
+[2.684s] copying resource/state -> /home/tien/Documents/GitHub/ALL_CODE/red_ws/install/state/share/ament_index/resource_index/packages
+[2.684s] copying package.xml -> /home/tien/Documents/GitHub/ALL_CODE/red_ws/install/state/share/state
+[2.685s] running install_egg_info
+[2.687s] Copying ../../build/state/state.egg-info to /home/tien/Documents/GitHub/ALL_CODE/red_ws/install/state/lib/python3.10/site-packages/state-0.0.0-py3.10.egg-info
+[2.688s] running install_scripts
+[2.735s] writing list of installed files to '/home/tien/Documents/GitHub/ALL_CODE/red_ws/build/state/install.log'
+[2.781s] Invoked command in '/home/tien/Documents/GitHub/ALL_CODE/red_ws/src/state' returned '0': PYTHONPATH=/home/tien/Documents/GitHub/ALL_CODE/red_ws/build/state/prefix_override:/home/tien/Documents/GitHub/ALL_CODE/red_ws/install/state/lib/python3.10/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated setup.py egg_info --egg-base ../../build/state build --build-base /home/tien/Documents/GitHub/ALL_CODE/red_ws/build/state/build install --record /home/tien/Documents/GitHub/ALL_CODE/red_ws/build/state/install.log --single-version-externally-managed install_data
