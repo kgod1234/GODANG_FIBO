@@ -1,7 +1,7 @@
 import rclpy
 from rclpy.node import Node
 
-from std_msgs.msg import String
+from std_msgs.msg import Int32
 
 state = 0;
 
@@ -9,20 +9,13 @@ class StateNode(Node):
 
     def __init__(self):
         super().__init__("state_node")
-        self.publisher_ = self.create_publisher(String, "vel_data", 10)
-        self.subscriptions_ = self.create_subscription(String, "pos_data" , 10)
+        self.publisher_ = self.create_publisher(Int32, "state_data", 10)
         timer_period = 0.01  # 100 hz
         self.timer = self.create_timer(timer_period, self.timer_callback)
 
     def timer_callback(self):
-        # PID_out = self.lt.PID_Read()
-        # Con_state = self.lt.condition_met()
-        
-        msg = String()
-        msg.data = [1.0,2.5, 3.9]
-        # msg.layout.dim.append(MultiArrayDimension(label='rows', size=3, stride=3))
-        # msg.layout.dim.append(MultiArrayDimension(label='columns', size=1, stride=1))
-        # msg.data = [PID_out,0,0]
+        msg = Int32
+        msg.data = 0;
         self.publisher_.publish(msg)
 
 

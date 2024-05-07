@@ -1,33 +1,110 @@
-from Function import PositionController
+#!/usr/bin/env python3
+
+import Functionn
 
 import rclpy
 from rclpy.node import Node
 
+from std_msgs.msg import Int32
 from std_msgs.msg import Float32MultiArray
+from std_msgs.msg import MultiArrayDimension
 
 class MobileNode(Node):
 
     def __init__(self):
         super().__init__("mobile_node")
-        self.publisher_ = self.create_publisher(Float32MultiArray, "vel_data", 10)
-        self.subscription_ = self.create_subscription(Float32MultiArray, "pos_data" ,self.listener_callback, 10)
-        self.subscription_  # prevent unused variable warning
+        self.publisher_vel = self.create_publisher(Float32MultiArray, "vel_data", 10)
+        self.subscription_pos = self.create_subscription(Float32MultiArray, "pos_data" ,self.listener_pos_callback, 10)
+        self.subscription_pos  # prevent unused variable warning
+        self.subscription_state = self.create_subscription(Int32, "state_data" ,self.listener_state_callback, 10)
+        self.subscription_state   # prevent unused variable warning
         timer_period = 0.01  # 100 hz
         self.timer = self.create_timer(timer_period, self.timer_callback)
-        self.vx, self.vy, self.vz = 0, 0, 0
-        self.pos_x, self.pos_y, self.pos_z = 0,0,0
-        self.pos_control = PositionController()
-        self.pos_control.position_reset()
         
-    def listener_callback(self, msg):
-        self.pos_x = msg.data[0]
-        self.pos_y = msg.data[1]
-        self.pos_z = msg.data[2]
+        #
+        self.pos_control = Functionn.PositionController() 
+        
+        # variable zone
+        #========================
 
-    def timer_callback(self):        
+        # [vx,vy,vz,reset]
+        self.vel_array = [0.0, 0.0, 0.0, 0.0]
+        
+        # [pos_x,pos_y,pos_z]
+        self.pos_array = [0.0, 0.0, 0.0]
+        self.pos_x = 0.0
+        self.pos_y = 0.0
+        self.pos_z = 0.0
+
+        # state
+        self.state = 0
+
+        # way point
+        self.way_point = 0
+        #========================
+        
+    def listener_pos_callback(self, msg):
+        
+        self.pos_array = msg.data
+        
+        self.pos_x = self.pos_array[0]
+        self.pos_y = self.pos_array[1]
+        self.pos_z = self.pos_array[2]
+
+    def listener_state_callback(self, msg):
+        self.state = msg.data
+
+    def timer_callback(self):
+        
         msg = Float32MultiArray()
-        msg.data = self.pos_control.go_to_position(5,0,0,self.pos_x, self.pos_y, self.pos_z)
-        self.publisher_.publish(msg)
+        msg.layout.dim.append(MultiArrayDimension(label='rows', size=4, stride=4))
+        msg.layout.dim.append(MultiArrayDimension(label='columns', size=1, stride=1))
+        
+        if self.state == 0:
+            self.vel_array = [0.0, 0.0, 0.0, 0.0]
+                   
+        elif self.state == 1:
+            # waypoint 1
+            if self.way_point == 0:
+                self.vel_array[3] = 0.0
+                self.vel_array = self.pos_control.go_to_position(5, 0, 0, self.pos_x, self.pos_y, self.pos_z)
+                if self.vel_array == [0.0, 0.0, 0.0, 0.0]:
+                    self.vel_array[3] += 1.0
+                    self.way_point += 1
+            # waypoint 2        
+            elif self.way_point == 1:
+                self.vel_array[3] = 0.0
+                self.vel_array = self.pos_control.go_to_position(0, 5, 0, self.pos_x, self.pos_y, self.pos_z)
+                if self.vel_array == [0.0, 0.0, 0.0, 0.0]:
+                    self.vel_array[3] += 1.0
+                    self.way_point += 1
+            # waypoint 3    
+            elif self.way_point == 2:
+                self.vel_array[3] = 0.0
+                self.vel_array = self.pos_control.go_to_position(10, 0, 0, self.pos_x, self.pos_y, self.pos_z)
+                if self.vel_array == [0.0, 0.0, 0.0, 0.0]:
+                    self.vel_array[3] += 1.0
+                    self.way_point += 1    
+            # waypoint 4       
+            elif self.way_point == 3:
+                self.vel_array[3] = 0.0
+                self.vel_array = self.pos_control.go_to_position(10, 10, 0, self.pos_x, self.pos_y, self.pos_z)
+                if self.vel_array == [0.0, 0.0, 0.0, 0.0]:
+                    self.vel_array[3] += 1.0
+                    self.way_point += 1       
+            # waypoint 5         
+            elif self.way_point == 4:
+                self.vel_array[3] = 0.0
+                self.vel_array = self.pos_control.go_to_position(0, 20, 0, self.pos_x, self.pos_y, self.pos_z)
+                if self.vel_array == [0.0, 0.0, 0.0, 0.0]:
+                    self.vel_array[3] += 1.0
+                    self.way_point += 1
+                    
+            else:
+                self.vel_array = [0.0, 0.0, 0.0, 0.0] 
+
+        msg.data = self.vel_array
+        self.publisher_vel.publish(msg) 
 
 
 def main(args=None):

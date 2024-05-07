@@ -1,0 +1,22 @@
+running egg_info
+writing ../../build/mobile/mobile.egg-info/PKG-INFO
+writing dependency_links to ../../build/mobile/mobile.egg-info/dependency_links.txt
+writing entry points to ../../build/mobile/mobile.egg-info/entry_points.txt
+writing requirements to ../../build/mobile/mobile.egg-info/requires.txt
+writing top-level names to ../../build/mobile/mobile.egg-info/top_level.txt
+reading manifest file '../../build/mobile/mobile.egg-info/SOURCES.txt'
+writing manifest file '../../build/mobile/mobile.egg-info/SOURCES.txt'
+running build
+running build_py
+copying mobile/PID_node.py -> /home/tien/Documents/GitHub/ALL_CODE/red_ws/build/mobile/build/lib/mobile
+running install
+running install_lib
+copying /home/tien/Documents/GitHub/ALL_CODE/red_ws/build/mobile/build/lib/mobile/PID_node.py -> /home/tien/Documents/GitHub/ALL_CODE/red_ws/install/mobile/lib/python3.10/site-packages/mobile
+byte-compiling /home/tien/Documents/GitHub/ALL_CODE/red_ws/install/mobile/lib/python3.10/site-packages/mobile/PID_node.py to PID_node.cpython-310.pyc
+running install_data
+running install_egg_info
+removing '/home/tien/Documents/GitHub/ALL_CODE/red_ws/install/mobile/lib/python3.10/site-packages/mobile-0.0.0-py3.10.egg-info' (and everything under it)
+Copying ../../build/mobile/mobile.egg-info to /home/tien/Documents/GitHub/ALL_CODE/red_ws/install/mobile/lib/python3.10/site-packages/mobile-0.0.0-py3.10.egg-info
+running install_scripts
+Installing PID_test script to /home/tien/Documents/GitHub/ALL_CODE/red_ws/install/mobile/lib/mobile
+writing list of installed files to '/home/tien/Documents/GitHub/ALL_CODE/red_ws/build/mobile/install.log'

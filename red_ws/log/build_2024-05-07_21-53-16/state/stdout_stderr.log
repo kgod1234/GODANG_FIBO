@@ -1,0 +1,18 @@
+running egg_info
+writing ../../build/state/state.egg-info/PKG-INFO
+writing dependency_links to ../../build/state/state.egg-info/dependency_links.txt
+writing entry points to ../../build/state/state.egg-info/entry_points.txt
+writing requirements to ../../build/state/state.egg-info/requires.txt
+writing top-level names to ../../build/state/state.egg-info/top_level.txt
+reading manifest file '../../build/state/state.egg-info/SOURCES.txt'
+writing manifest file '../../build/state/state.egg-info/SOURCES.txt'
+running build
+running build_py
+running install
+running install_lib
+running install_data
+running install_egg_info
+removing '/home/tien/Documents/GitHub/ALL_CODE/red_ws/install/state/lib/python3.10/site-packages/state-0.0.0-py3.10.egg-info' (and everything under it)
+Copying ../../build/state/state.egg-info to /home/tien/Documents/GitHub/ALL_CODE/red_ws/install/state/lib/python3.10/site-packages/state-0.0.0-py3.10.egg-info
+running install_scripts
+writing list of installed files to '/home/tien/Documents/GitHub/ALL_CODE/red_ws/build/state/install.log'

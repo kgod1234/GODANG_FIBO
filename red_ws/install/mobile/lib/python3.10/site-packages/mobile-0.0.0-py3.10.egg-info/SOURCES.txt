@@ -8,7 +8,7 @@ setup.py
 ../../build/mobile/mobile.egg-info/requires.txt
 ../../build/mobile/mobile.egg-info/top_level.txt
 ../../build/mobile/mobile.egg-info/zip-safe
-mobile/Function.py
+mobile/Functionn.py
 mobile/PID.py
 mobile/PID_node.py
 mobile/__init__.py
