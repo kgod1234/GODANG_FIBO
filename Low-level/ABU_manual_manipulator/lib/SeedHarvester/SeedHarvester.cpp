@@ -141,7 +141,8 @@ void SeedHarvester::stack(){ // stack in storage
       return;
     }
     if (storage == 0){
-      setZero();
+      linearDrive(manual_lock_dis - 15, Rdir);
+      manual_lock_dis = manual_lock_dis - 15;
       storage = storage + 1;
       ready_to_stack = false;
       stage = 2; 
@@ -228,7 +229,8 @@ void SeedHarvester::Stacking(bool next){ // to stack seed in harvest stage
         stage--;
       }
       if(stage == 0){
-        release();
+        GrabServo.write(100);
+        delay(300);
         lifter_down(this->pwm);
         pulling = false;
       }
@@ -254,8 +256,8 @@ void SeedHarvester::drop() { // to the droping position
 void SeedHarvester::drop_down() { // drop the seed down in deploying stage
   if(!harvest){ // check if not in harvest stage
     lifter_down(this->pwm, 200); // drop down fr
-    release();
-    delay(1000);
+    GrabServo.write(100);
+    delay(1500);
     lifter_up(this->pwm); // take the gripper up
     manual_lock_dis = manual_lock_dis + gap;
     storage = storage - 1;
