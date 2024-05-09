@@ -3,30 +3,20 @@
 Servo GrabServo;
 
 SeedHarvester::SeedHarvester(int gpin, int lftA, int lftB, int Minlimit, int Maxlimit, int dirPin, int stepPin, int setzeropin)
-  : gpin_(gpin), lftA_(lftA), lftB_(lftB), Minlimitpin_(Minlimit), Maxlimitpin_(Maxlimit) ,dirPin_(dirPin), stepPin_(stepPin), setzeropin_(setzeropin) {
+  : stepper(AccelStepper::DRIVER, stepPin, dirPin), gpin_(gpin), lftA_(lftA), lftB_(lftB), Minlimitpin_(Minlimit), Maxlimitpin_(Maxlimit) ,dirPin_(dirPin), stepPin_(stepPin), setzeropin_(setzeropin) {
   
 }
 
 void SeedHarvester::linearDrive(double dis, int dir) {
-  int stpd = 500;
-  int rpt = dis / 0.285;
-  digitalWrite(dirPin_, dir);
-  for (int i = 0; i < rpt; i++) {
-    if(i > rpt * 0.1){
-      stpd = 350;
+  int steps = dis / 0.285;
+    if(!dir){
+      steps = steps * -1;
     }
-    else if(i > rpt * 0.15){
-      stpd = 300;
-    }
-    else if(i > rpt * 0.20){
-      stpd = 200;
-    }
-    digitalWrite(stepPin_, HIGH);
-    delayMicroseconds(stpd);
-    digitalWrite(stepPin_, LOW);
-    delayMicroseconds(stpd);
-  }
-  delay(500);
+    stepper.runSpeed();
+    stepper.moveTo(steps);
+    stepper.runToPosition();
+    stepper.setCurrentPosition(0);
+    delay(500); // Optional delay after movement
 }
 
 void SeedHarvester::linearDriveSteady(double dis, int dir) {
@@ -115,10 +105,12 @@ void SeedHarvester::setup(){
   pinMode(Maxlimitpin_, INPUT_PULLUP);
   pinMode(setzeropin_, INPUT_PULLUP);
   // step motor
-  pinMode(dirPin_, OUTPUT);
-  pinMode(stepPin_, OUTPUT);
   // servo
   GrabServo.attach(gpin_);
+  stepper.setSpeed(20000);
+  stepper.setMaxSpeed(50000); // Set your desired maximum speed in steps per second
+  stepper.setAcceleration(10000); // Set your desired acceleration in steps per second per second
+  
   release();
   lifter_up(this->pwm);
 
@@ -249,7 +241,7 @@ void SeedHarvester::drop() { // to the droping position
       harvest = true;
       return;
     }
-      linearDriveSteady(manual_lock_dis, Ldir);
+      linearDrive(manual_lock_dis, Ldir);
   }
 }
 
@@ -275,7 +267,7 @@ void SeedHarvester::drop_down() { // drop the seed down in deploying stage
       harvest = true;
       return;
     } 
-    linearDriveSteady(manual_lock_dis, Rdir);// moving to next seed to deploy
+    linearDrive(manual_lock_dis, Rdir);// moving to next seed to deploy
   }
 }
 
