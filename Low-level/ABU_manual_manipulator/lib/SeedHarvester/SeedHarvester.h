@@ -1,3 +1,6 @@
+#include <AccelStepper.h>
+#include <MultiStepper.h>
+
 #ifndef SEEDHARVESTER_H
 #define SEEDHARVESTER_H
 
@@ -63,9 +66,9 @@ private:
   bool Rdir = false; // go in to set zero pos
 
   int grbAng = 0;
-  int relAng = 62;
+  int relAng = 180;
 
-  int pwm = 255;
+  int pwm = 170;
 
   bool harvest = true;
   bool ready_to_stack = true;
@@ -75,6 +78,11 @@ private:
   int pop_stage = 0;
 
   int pd = 500;
+
+  AccelStepper stepper;
+  int init_spd = 20000;
+  int max_spd = 50000;
+  int acc = 10000;
 };
 
 #endif  // SEEDHARVESTER_H
