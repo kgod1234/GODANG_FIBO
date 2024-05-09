@@ -124,7 +124,7 @@ void timer_callback(rcl_timer_t* timer, int64_t last_call_time)
 
     if (slowState)
     {
-      Kinematics::RPM wheelSpeeds = kinematics.Inverse_Kinematics(mobile_data.vx, mobile_data.vy,
+      Kinematics::RPM wheelSpeeds = kinematics.Inverse_Kinematics(-1 * (mobile_data.vx), -1 * (mobile_data.vy),
                                                                   -1 * (mobile_data.wz));  // Set Joy to 0.92 0.92 2.65
       FL.setSpeed(mapfloat(wheelSpeeds.RPM_FL, -138, 138, -255, 255) / 4);
       FR.setSpeed(mapfloat(wheelSpeeds.RPM_FR, -138, 138, -255, 255) / 4);
@@ -138,7 +138,7 @@ void timer_callback(rcl_timer_t* timer, int64_t last_call_time)
     }
     else
     {
-      Kinematics::RPM wheelSpeeds = kinematics.Inverse_Kinematics(mobile_data.vx, mobile_data.vy,
+      Kinematics::RPM wheelSpeeds = kinematics.Inverse_Kinematics(-1 * (mobile_data.vx), -1 * (mobile_data.vy),
                                                                   -1 * (mobile_data.wz));  // Set Joy to 0.92 0.92 2.65
       FL.setSpeed(mapfloat(wheelSpeeds.RPM_FL, -138, 138, -255, 255));
       FR.setSpeed(mapfloat(wheelSpeeds.RPM_FR, -138, 138, -255, 255));

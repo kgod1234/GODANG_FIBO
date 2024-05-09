@@ -15,13 +15,12 @@ class MobileNode(Node):
         super().__init__("mobile_node")
         self.publisher_vel = self.create_publisher(Float32MultiArray, "vel_data", 10)
         self.subscription_pos = self.create_subscription(Float32MultiArray, "pos_data",self.listener_pos_callback, 10)
-        # self.subscription_pos   
+        self.subscription_pos   
         self.subscription_state = self.create_subscription(Int32, "state_data" ,self.listener_state_callback, 10)
         self.subscription_state   
         timer_period = 0.01  # 100 hz
         self.timer = self.create_timer(timer_period, self.timer_callback)
         
-        #
         self.pos_control = PositionController() 
         
         # variable zone

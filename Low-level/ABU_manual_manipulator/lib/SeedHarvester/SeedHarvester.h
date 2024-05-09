@@ -12,6 +12,7 @@ public:
   void setup(); // set pin and gripper position
   // stepper
   void linearDrive(double dis, int dir); // drive gripper position to disire position and direction
+  void linearDriveSteady(double dis, int dir); // drive gripper position to disire position and direction
   void setZero(); // set the gripper position to the start
   // servo
   void grab(); // grab an object
@@ -53,8 +54,8 @@ private:
   int setzeropin_; // limit pin to set zero for step motor
 
   int storage = 0;
-  int manual_lock_dis = 440; // the initial pos in mm
-  int max_dis = 440; // the max pos in mm
+  int manual_lock_dis = 455; // the initial pos in mm
+  int max_dis = 455; // the max pos in mm
 
   int n_release = 0;
 
@@ -62,9 +63,9 @@ private:
   bool Rdir = false; // go in to set zero pos
 
   int grbAng = 0;
-  int relAng = 50;
+  int relAng = 62;
 
-  int pwm = 200;
+  int pwm = 255;
 
   bool harvest = true;
   bool ready_to_stack = true;
@@ -72,6 +73,8 @@ private:
 
   int stage = 0;
   int pop_stage = 0;
+
+  int pd = 500;
 };
 
 #endif  // SEEDHARVESTER_H
